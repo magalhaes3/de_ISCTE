@@ -3,6 +3,8 @@ package menu;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import de_ISCTE.Game;
 
 public class Menu {
 
@@ -44,6 +48,13 @@ public class Menu {
         startButton.setForeground(Color.WHITE);
         startButton.setBackground(new Color(57, 55, 61));
         startButton.setBorder(null);
+        startButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Game();
+			}
+		});
         startPanel.add(startButton);
         
         frame.add(startPanel, BorderLayout.CENTER);
@@ -54,6 +65,13 @@ public class Menu {
         exitButton.setForeground(Color.WHITE);
         exitButton.setBackground(new Color(57, 55, 61));
         exitButton.setBorder(null);
+        exitButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
         frame.add(exitButton, BorderLayout.SOUTH);
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

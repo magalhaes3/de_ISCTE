@@ -18,4 +18,15 @@ public class Window {
 		frame.add(game);
 		frame.setVisible(true);
 	}
+	
+	public Window(JFrame frame, Game game) {
+		frame.getContentPane().removeAll();
+		frame.repaint();
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
+		frame.add(game);
+		frame.setVisible(true);
+	}
 }

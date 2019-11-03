@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
 
+import javax.swing.JFrame;
+
 public class Game extends Canvas implements Runnable{
 
 	public static int WIDTH = 800;
@@ -31,6 +33,18 @@ public class Game extends Canvas implements Runnable{
 		
 		handler.addObject(new Basic(50-15,50-15,ID.Enemy, this)); //retirar this e ver a subtraão
 		
+	}
+	
+	public Game(JFrame frame) {
+		new Window(frame, this);
+		start();
+		
+		init();
+		//
+		
+		//handler.addObject(new Enemy(100,100,ID.Enemy));
+		
+		handler.addObject(new Basic(50-15,50-15,ID.Enemy, this)); //retirar this e ver a subtraão
 	}
 	
 	private void init() {

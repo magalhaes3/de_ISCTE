@@ -3,13 +3,13 @@ package de_ISCTE;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable{
 
-	public static int WIDTH = 800;
-	public static int HEIGHT = 608;
+	public static int WIDTH = 966;
+	public static int HEIGHT = 701;
+	public static int SLOT_SIZE = 48;
 	public String title = "Defend de_ISCTE";
 	
 	private Thread thread;
@@ -29,22 +29,26 @@ public class Game extends Canvas implements Runnable{
 		
 		//handler.addObject(new Enemy(100,100,ID.Enemy));
 		
-		handler.addObject(new Basic(50-15,50-15,ID.Enemy, this)); //retirar this e ver a subtraão
+		//handler.addObject(new Basic(50-15,50-15,ID.Enemy, this)); //retirar this e ver a subtraão
 		
 	}
 	
 	private void init() {
 		handler = new Handler();
 		currentMap = new Map("Teste");
-		currentMap.addPoint(50, 50);
-		currentMap.addPoint(50, 500);
-		currentMap.addPoint(400, 500);
-		currentMap.addPoint(400, 250);
-		currentMap.addPoint(700, 250);
+		currentMap.addPoint(currentMap.getMap()[0][1]);
+		currentMap.addPoint(currentMap.getMap()[10][1]);
+		currentMap.addPoint(currentMap.getMap()[10][7]);
+		currentMap.addPoint(currentMap.getMap()[6][7]);
+		currentMap.addPoint(currentMap.getMap()[6][16]);
+		currentMap.addPoint(currentMap.getMap()[12][16]);
+		currentMap.addPoint(currentMap.getMap()[12][19]);
+		currentMap.drawPath();
 	}
 	
 	private synchronized void start() {
-		if(isRunning) return;
+		if(isRunning) 
+			return;
 
 		thread = new Thread(this);
 		thread.start();
@@ -52,7 +56,8 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	private synchronized void stop() {
-		if(!isRunning) return;
+		if(!isRunning)
+			return;
 		
 		try {
 			thread.join();
@@ -109,24 +114,13 @@ public class Game extends Canvas implements Runnable{
 		
 		Graphics g = bs.getDrawGraphics();
 		////////////////////////////////////
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		g.fillRect(0,0, WIDTH, HEIGHT);
+		currentMap.render(g);		
 		
 		
-		//render test map
-		g.setColor(Color.RED);
-		Point2D.Float tempp2d = currentMap.points.getFirst();
-		for(Point2D.Float p2df : currentMap.points) {
-			if(p2df.equals(currentMap.points.getLast()))
-				g.setColor(Color.RED);
-			g.fillRect((int)(p2df.getX()-5), (int)(p2df.getY()-5), 10, 10);
-			g.setColor(Color.WHITE);
-			if(!tempp2d.equals(p2df)) {
-				g.drawLine((int)tempp2d.getX(), (int)tempp2d.getY(), (int)p2df.getX(), (int)p2df.getY());
-				tempp2d = p2df;
-			}
-		}
 		//---------------------
+		
 		
 		handler.render(g);
 		////////////////////////////////////

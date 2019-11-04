@@ -7,8 +7,8 @@ import java.util.LinkedList;
 
 public class Basic extends Enemy{
 
-	private LinkedList<Point2D.Float> path;
-	private Point2D.Float target;
+	private LinkedList<Ground> path;
+	private Ground target;
 	private Game game; //retirar daqui
 
 	public Basic(int x, int y, ID id, Game game) {
@@ -17,38 +17,38 @@ public class Basic extends Enemy{
 		this.game = game;
 		path = game.getCurrentMap().points;
 		target = path.getFirst();
-		velXY = 5;
+		velXY = 1;
 	}
 
 	@Override
 	public void tick() {
 		// devia estar na classe enemy mais geral
-		if(x+15 != path.getLast().getX() || y+15 != path.getLast().getY()) {
+		if(x+24 != path.getLast().getX() || y+24 != path.getLast().getY()) {
 			
-			double tempx = x+15 - target.getX();
-			double tempy = y+15 - target.getY();
+			double tempx = x+24 - target.getX();
+			double tempy = y+24 - target.getY();
 			
 			if(tempx < 0) {
 				if( Math.abs(tempx) < velXY)
-					x = (float) target.getX()-15;
+					x = (float) target.getX()-24;
 				else
 					x += velXY;
 			}
 			else if ( tempx > 0) {
 				if( tempx < velXY)
-					x = (float) target.getX()+15;
+					x = (float) target.getX()+24;
 				else
 					x -= velXY;
 			}
 			if( tempy < 0) {
 				if( Math.abs(tempy) < velXY)
-					y = (float) target.getY()+15;
+					y = (float) target.getY()+24;
 				else
 					y += velXY;
 			}
 			else if ( tempy > 0) {
 				if( tempy < velXY)
-					y = (float) target.getY()-15;
+					y = (float) target.getY()-24;
 				else
 					y -= velXY;
 			}

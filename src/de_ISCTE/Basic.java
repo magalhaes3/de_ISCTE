@@ -14,14 +14,18 @@ public class Basic extends Enemy{
 	public Basic(int x, int y, ID id, Game game) {
 		super(x, y, id);
 
+		/*
 		this.game = game;
 		path = game.getCurrentMap().points;
 		target = path.getFirst();
 		velXY = 1;
+		*/
 	}
 
+	
 	@Override
 	public void tick() {
+		/*
 		// devia estar na classe enemy mais geral
 		if(x+24 != path.getLast().getX() || y+24 != path.getLast().getY()) {
 			
@@ -56,12 +60,15 @@ public class Basic extends Enemy{
 			if(x+15 == target.getX() && y+15 == target.getY() && !target.equals(path.getLast()))
 				target = path.get(path.indexOf(target)+1);
 		}
+		*/
 	}	
 
 	@Override
 	public void render(Graphics g) {
+		/*
 		g.setColor(new Color(255, 255, 255, 125));
 		g.fillOval((int)x, (int)y, 30, 30);
+		*/
 	}
-
+	 
 }

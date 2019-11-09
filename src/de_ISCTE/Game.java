@@ -3,13 +3,16 @@ package de_ISCTE;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Game extends Canvas implements Runnable{
 
-	public static int WIDTH = 966;
-	public static int HEIGHT = 701;
-	public static int SLOT_SIZE = 48;
+	public static int WIDTH = Map.SLOT_SIZE*Map.V_SLOTS + 6; //986, slots*n colunas + parte da janela
+	public static int HEIGHT = Map.SLOT_SIZE*Map.H_SLOTS + 29; //715 slots*n linhas + parte da janela
 	public String title = "Defend de_ISCTE";
 	
 	private Thread thread;
@@ -35,7 +38,9 @@ public class Game extends Canvas implements Runnable{
 	
 	private void init() {
 		handler = new Handler();
-		currentMap = new Map("Teste");
+		loadMap("Teste.txt");
+		//currentMap = new Map("Teste");
+		/*
 		currentMap.addPoint(currentMap.getMap()[0][1]);
 		currentMap.addPoint(currentMap.getMap()[10][1]);
 		currentMap.addPoint(currentMap.getMap()[10][7]);
@@ -43,7 +48,17 @@ public class Game extends Canvas implements Runnable{
 		currentMap.addPoint(currentMap.getMap()[6][16]);
 		currentMap.addPoint(currentMap.getMap()[12][16]);
 		currentMap.addPoint(currentMap.getMap()[12][19]);
-		currentMap.drawPath();
+		*/
+		/*
+		currentMap.addPoint(currentMap.getMap()[7][0]);
+		currentMap.addPoint(currentMap.getMap()[7][9]);
+		currentMap.addPoint(currentMap.getMap()[11][9]);
+		currentMap.addPoint(currentMap.getMap()[11][14]);
+		currentMap.addPoint(currentMap.getMap()[7][14]);
+		currentMap.addPoint(currentMap.getMap()[7][19]);
+		*/
+		//currentMap.drawPath();
+		//currentMap.exportMap();
 	}
 	
 	private synchronized void start() {
@@ -116,7 +131,11 @@ public class Game extends Canvas implements Runnable{
 		////////////////////////////////////
 		g.setColor(Color.WHITE);
 		g.fillRect(0,0, WIDTH, HEIGHT);
-		currentMap.render(g);		
+		
+		
+		
+		if(currentMap != null)
+			currentMap.render(g);		
 		
 		
 		//---------------------
@@ -131,6 +150,36 @@ public class Game extends Canvas implements Runnable{
 	
 	public Map getCurrentMap() {
 		return currentMap;
+	}
+	
+	private void loadMap(String path) {
+		try {
+			String title = "";
+			String line = "";
+			File file = new File(path);
+			Scanner sc = new Scanner(file);
+			if(sc.hasNextLine()) {
+				title = sc.nextLine();
+				line = sc.nextLine();
+				Map aux = new Map(title);
+				
+				while(sc.hasNextLine() && line != "endpoints") {
+					line = line.substring(1, line.length() - 1);
+					String[] args = line.split(",");
+					float x = Float.parseFloat(args[0]);
+					float y = Float.parseFloat(args[1]);
+					aux.addPoint(new Point2D.Float(x,y));
+					line = sc.nextLine();
+				}
+				aux.drawPath();
+								
+				currentMap = aux;
+			}
+			//else se estiver vazio
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static void main(String[] args) {

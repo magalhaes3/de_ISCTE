@@ -18,7 +18,7 @@ public class Dirt extends Ground{
 	@Override
 	public void render(Graphics g) {
 		g.setColor(new Color(212, 157, 74));
-		g.fillRect((int)x, (int)y, Game.SLOT_SIZE, Game.SLOT_SIZE);
+		g.fillRect((int)x, (int)y, Map.SLOT_SIZE, Map.SLOT_SIZE);
 	}
 
 }

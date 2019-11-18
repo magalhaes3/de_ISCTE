@@ -37,6 +37,7 @@ public class Map {
 	}
 	
 	public void drawPath() {
+		System.out.println(points);
 		Point2D.Float seg_first = points.getFirst();
 		Point2D.Float seg_last = points.get(points.indexOf(seg_first) + 1);
 		while(seg_first != points.getLast()) { 

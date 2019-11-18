@@ -38,7 +38,8 @@ public class Game extends Canvas implements Runnable{
 	
 	private void init() {
 		handler = new Handler();
-		loadMap("Teste.txt");
+		//TODO inserir aqui um método para escolher o path do mapa
+		loadMap("./maps/level1/map3.txt");
 		//currentMap = new Map("Teste");
 		/*
 		currentMap.addPoint(currentMap.getMap()[0][1]);

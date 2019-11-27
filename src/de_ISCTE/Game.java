@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 import de_ISCTE.Map;
@@ -22,11 +23,13 @@ public class Game extends Canvas implements Runnable{
 	private Thread thread;
 	private boolean isRunning = false;
 	
-	private Handler handler;
+	private LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
 	private Map currentMap;
 	
+	private int currentLevel;
 	
-	public Game() {
+//	Privado porque só usado internamente para debugging
+	private Game() {
 		
 		new Window(WIDTH, HEIGHT, title, this);
 		start();
@@ -45,26 +48,54 @@ public class Game extends Canvas implements Runnable{
 		start();
 		
 		init();
-		//
 		
-		//handler.addObject(new Enemy(100,100,ID.Enemy));
-		
-		handler.addObject(new Basic(50-15,50-15,ID.Enemy, this)); //retirar this e ver a subtraão
+//		handler.addObject(new Basic(50-15,50-15,ID.Enemy, this)); //retirar this e ver a subtraão
 	}
-	
-	private void init() {
-		handler = new Handler();
-		//TODO inserir aqui um método para escolher o path do mapa
-		loadMap("./maps/level3/IGOT.txt");
-	}
-	
 	private synchronized void start() {
 		if(isRunning) 
 			return;
-
+		
+		this.currentLevel = 1;
 		thread = new Thread(this);
 		thread.start();
 		isRunning = true;
+	}
+	
+	private void init() {
+		//TODO inserir aqui um método para escolher o path do mapa
+//		loadMap("./maps/level3/IGOT.txt");
+		loadMap(chooseMap());
+	}
+	
+	private String chooseMap() {
+		String path = "";
+		double random = Math.random();
+		if(currentLevel == 1) 
+			path = chooseLevelOneMap(random);
+		if(currentLevel == 2)
+			path = chooseLevelTwoMap(random);
+			
+		return path;
+	}
+	
+	private String chooseLevelOneMap(double random) {
+		if(random < 0.33) {
+			return "./maps/level1/Avante.txt";
+		} else if(random < 0.66) {
+			return "./maps/level1/Cidade.txt";
+		} else {
+			return "./maps/level1/map1.txt";
+		}
+	}
+	
+	private String chooseLevelTwoMap(double random) {
+		if(random < 0.33) {
+			return "./maps/level2/Autonomo.txt";
+		} else if(random < 0.66) {
+			return "./maps/level2/ICS.txt";
+		} else {
+			return "./maps/level2/Inside.txt";
+		}
 	}
 	
 	private synchronized void stop() {
@@ -113,7 +144,9 @@ public class Game extends Canvas implements Runnable{
 	
 	public void tick() {
 		//update game
-		handler.tick();
+		for(GameObject tempObject : gameObjects) {
+			tempObject.tick();
+		}
 	}
 	
 	private void render() {
@@ -138,15 +171,29 @@ public class Game extends Canvas implements Runnable{
 		//---------------------
 		
 		
-		handler.render(g);
+		renderGameObjects(g);
 		////////////////////////////////////
 		bs.show();
 		g.dispose();
 		
 	}
 	
+	private void renderGameObjects(Graphics g) {
+		for(GameObject tempObject : gameObjects) {
+			tempObject.render(g);
+		}
+	}
+	
 	public Map getCurrentMap() {
 		return currentMap;
+	}
+	
+	public void addObject(GameObject tempObject) {
+		gameObjects.add(tempObject);
+	}
+	
+	public void removeObject(GameObject tempObject) {
+		gameObjects.remove(tempObject);
 	}
 	
 	private void loadMap(String path) {

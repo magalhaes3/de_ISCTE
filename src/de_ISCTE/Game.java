@@ -8,9 +8,8 @@ import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Scanner;
-
-import de_ISCTE.Map;
 
 import javax.swing.JFrame;
 
@@ -69,33 +68,20 @@ public class Game extends Canvas implements Runnable{
 	
 	private String chooseMap() {
 		String path = "";
-		double random = Math.random();
-		if(currentLevel == 1) 
-			path = chooseLevelOneMap(random);
-		if(currentLevel == 2)
-			path = chooseLevelTwoMap(random);
-			
+		int random;
+		if(currentLevel == 1) {
+			random = new Random().nextInt(Map.level1maps.length);
+			path = Map.level1maps[random];
+		}	
+		if(currentLevel == 2) {
+			random = new Random().nextInt(Map.level2maps.length);
+			path = Map.level2maps[random];
+		}
+		if(currentLevel == 3) {
+			random = new Random().nextInt(Map.level3maps.length);
+			path = Map.level3maps[random];
+		}
 		return path;
-	}
-	
-	private String chooseLevelOneMap(double random) {
-		if(random < 0.33) {
-			return "./maps/level1/Avante.txt";
-		} else if(random < 0.66) {
-			return "./maps/level1/Cidade.txt";
-		} else {
-			return "./maps/level1/map1.txt";
-		}
-	}
-	
-	private String chooseLevelTwoMap(double random) {
-		if(random < 0.33) {
-			return "./maps/level2/Autonomo.txt";
-		} else if(random < 0.66) {
-			return "./maps/level2/ICS.txt";
-		} else {
-			return "./maps/level2/Inside.txt";
-		}
 	}
 	
 	private synchronized void stop() {

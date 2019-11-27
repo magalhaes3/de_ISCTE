@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Map {
+	public static final String[] level1maps = {"./maps/level1/Avante.txt","./maps/level1/Cidade.txt", "./maps/level1/map1.txt"};
+	public static final String[] level2maps = {"./maps/level2/Autonomo.txt", "./maps/level2/ICS.txt", "./maps/level2/Inside.txt"};
+	public static final String[] level3maps = {"./maps/level3/Estacionamento.txt", "./maps/level3/IGOT.txt"};
 //alterar points para Points2D , começar o primeiro ponto fora do ecrã
 //melhorar a função drawpath	
 // criar função exportar, que escreve o mapa num ficheiro txt
@@ -116,4 +119,5 @@ public class Map {
 			e.printStackTrace();
 		}
 	}
+	
 }

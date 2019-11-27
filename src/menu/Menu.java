@@ -21,12 +21,27 @@ import de_ISCTE.Game;
 public class Menu {
 
 	public static void main(String[] args) {
+		JFrame frame = createFrame();
+		
+		addLogo(frame);
+        
+        createStartPanel(frame);
+          
+        createExitButton(frame);
+        
+        open(frame);
+	}
+	
+	private static JFrame createFrame() {
 		JFrame frame = new JFrame("de_ISCTE");
 		frame.setPreferredSize(new Dimension(800, 608));
 		frame.setMaximumSize(new Dimension(800, 608));
 		frame.setMinimumSize(new Dimension(800, 608));
 		frame.getContentPane().setBackground(new Color(37, 35, 41));
-		
+		return frame;
+	}
+	
+	private static void addLogo(JFrame frame) {
 		String path = "src/menu/LOGO.png";
         File file = new File(path);
         BufferedImage image = null;
@@ -38,9 +53,10 @@ public class Menu {
         JLabel logo = new JLabel(new ImageIcon(image));
         
         frame.add(logo, BorderLayout.NORTH);
-        
-        
-        JPanel startPanel = new JPanel();
+	}
+	
+	private static void createStartPanel(JFrame frame) {
+		JPanel startPanel = new JPanel();
         startPanel.setBackground(new Color(37, 35, 41));
         
         JButton startButton = new JButton("Start");
@@ -52,16 +68,16 @@ public class Menu {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				new Game();
 				new Game(frame);
 			}
 		});
         startPanel.add(startButton);
         
         frame.add(startPanel, BorderLayout.CENTER);
-
-        
-        JButton exitButton = new JButton("Exit");
+	}
+	
+	private static void createExitButton(JFrame frame) {
+		JButton exitButton = new JButton("Exit");
         exitButton.setPreferredSize(new Dimension(300, 100));
         exitButton.setForeground(Color.WHITE);
         exitButton.setBackground(new Color(57, 55, 61));
@@ -74,8 +90,10 @@ public class Menu {
 			}
 		});
         frame.add(exitButton, BorderLayout.SOUTH);
-        
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	private static void open(JFrame frame) {
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.pack();

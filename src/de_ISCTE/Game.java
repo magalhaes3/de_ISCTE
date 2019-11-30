@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import de_ISCTE.Map;
+
 public class Game extends Canvas implements Runnable{
 
 	public static int WIDTH = Map.SLOT_SIZE*Map.V_SLOTS + 6; //986, slots*n colunas + parte da janela
@@ -26,13 +28,13 @@ public class Game extends Canvas implements Runnable{
 		start();
 		
 		init();
-	//INSTANCE só deixa de ser null quando o construtor termina 
+	//INSTANCE sï¿½ deixa de ser null quando o construtor termina 
 	}
 	
 	private void init() {
 		handler = new Handler();
-		//TODO inserir aqui um método para escolher o path do mapa
-		loadMap("./maps/level2/Inside.txt");
+		//TODO inserir aqui um mï¿½todo para escolher o path do mapa
+		loadMap("./maps/level3/IGOT.txt");
 	}
 	
 	private synchronized void start() {

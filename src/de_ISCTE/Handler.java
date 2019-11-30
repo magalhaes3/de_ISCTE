@@ -1,6 +1,7 @@
 package de_ISCTE;
 
 import java.awt.Graphics;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Handler {
@@ -15,8 +16,12 @@ public class Handler {
 	
 	
 	public void render(Graphics g) {
-		for(GameObject tempObject : object) {
-			tempObject.render(g);
+		//ConcurrentModificationException
+		Iterator<GameObject> it = object.iterator();
+		
+		while(it.hasNext()) {
+			GameObject temp = it.next();
+			temp.render(g);
 		}
 	}
 		

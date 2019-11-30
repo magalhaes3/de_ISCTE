@@ -21,45 +21,18 @@ public class Game extends Canvas implements Runnable{
 	private Handler handler;
 	private Map currentMap;
 	
-	
-	public Game() {
-		
+	private Game() {
 		new Window(WIDTH, HEIGHT, title, this);
 		start();
 		
 		init();
-		//
-		
-		//handler.addObject(new Enemy(100,100,ID.Enemy));
-		
-		//handler.addObject(new Basic(50-15,50-15,ID.Enemy, this)); //retirar this e ver a subtraão
-		
+	//INSTANCE só deixa de ser null quando o construtor termina 
 	}
 	
 	private void init() {
 		handler = new Handler();
 		//TODO inserir aqui um método para escolher o path do mapa
-		loadMap("./maps/level2/map5.txt");
-		//currentMap = new Map("Teste");
-		/*
-		currentMap.addPoint(currentMap.getMap()[0][1]);
-		currentMap.addPoint(currentMap.getMap()[10][1]);
-		currentMap.addPoint(currentMap.getMap()[10][7]);
-		currentMap.addPoint(currentMap.getMap()[6][7]);
-		currentMap.addPoint(currentMap.getMap()[6][16]);
-		currentMap.addPoint(currentMap.getMap()[12][16]);
-		currentMap.addPoint(currentMap.getMap()[12][19]);
-		*/
-		/*
-		currentMap.addPoint(currentMap.getMap()[7][0]);
-		currentMap.addPoint(currentMap.getMap()[7][9]);
-		currentMap.addPoint(currentMap.getMap()[11][9]);
-		currentMap.addPoint(currentMap.getMap()[11][14]);
-		currentMap.addPoint(currentMap.getMap()[7][14]);
-		currentMap.addPoint(currentMap.getMap()[7][19]);
-		*/
-		//currentMap.drawPath();
-		//currentMap.exportMap();
+		loadMap("./maps/level2/Inside.txt");
 	}
 	
 	private synchronized void start() {
@@ -118,6 +91,7 @@ public class Game extends Canvas implements Runnable{
 	public void tick() {
 		//update game
 		handler.tick();
+		
 	}
 	
 	private void render() {
@@ -148,7 +122,7 @@ public class Game extends Canvas implements Runnable{
 		g.dispose();
 		
 	}
-	
+		
 	public Map getCurrentMap() {
 		return currentMap;
 	}
@@ -172,17 +146,17 @@ public class Game extends Canvas implements Runnable{
 					aux.addPoint(new Point2D.Float(x,y));
 					line = sc.nextLine();
 				}
-				aux.drawPath();
-								
 				currentMap = aux;
+				
+				currentMap.drawPath();
 			}
 			//else se estiver vazio
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+		
 	public static void main(String[] args) {
 		new Game();
 	}

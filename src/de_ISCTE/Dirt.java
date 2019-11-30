@@ -9,8 +9,8 @@ import javax.imageio.ImageIO;
 
 public class Dirt extends Ground {
 	
-	public Dirt(float x, float y, ID id) {
-		super(x, y, id);
+	public Dirt(float x, float y, float width, float height, ID id) {
+		super(x, y, width, height, id);
 		/*try {
 			image = ImageIO.read(new File("Dirt.jpg"));
 		} catch (IOException e) {

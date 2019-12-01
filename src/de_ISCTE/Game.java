@@ -27,19 +27,14 @@ public class Game extends Canvas implements Runnable{
 	
 	private int currentLevel;
 	
-//	Privado porque só usado internamente para debugging
+//	Privado porque sï¿½ usado internamente para debugging
 	private Game() {
 		
 		new Window(WIDTH, HEIGHT, title, this);
 		start();
 		
 		init();
-		//
-		
-		//handler.addObject(new Enemy(100,100,ID.Enemy));
-		
-		//handler.addObject(new Basic(50-15,50-15,ID.Enemy, this)); //retirar this e ver a subtraão
-		
+	//INSTANCE sï¿½ deixa de ser null quando o construtor termina 
 	}
 	
 	public Game(JFrame frame) {
@@ -48,7 +43,7 @@ public class Game extends Canvas implements Runnable{
 		
 		init();
 		
-//		handler.addObject(new Basic(50-15,50-15,ID.Enemy, this)); //retirar this e ver a subtraão
+//		handler.addObject(new Basic(50-15,50-15,ID.Enemy, this)); //retirar this e ver a subtraï¿½o
 	}
 	private synchronized void start() {
 		if(isRunning) 
@@ -61,7 +56,7 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	private void init() {
-		//TODO inserir aqui um método para escolher o path do mapa
+		//TODO inserir aqui um mï¿½todo para escolher o path do mapa
 //		loadMap("./maps/level3/IGOT.txt");
 		loadMap(chooseMap());
 	}
@@ -201,17 +196,17 @@ public class Game extends Canvas implements Runnable{
 					aux.addPoint(new Point2D.Float(x,y));
 					line = sc.nextLine();
 				}
-				aux.drawPath();
-								
 				currentMap = aux;
+				
+				currentMap.drawPath();
 			}
 			//else se estiver vazio
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+		
 	public static void main(String[] args) {
 		new Game();
 	}

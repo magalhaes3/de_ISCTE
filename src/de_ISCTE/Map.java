@@ -52,7 +52,7 @@ public class Map {
 					if(map[i][j] instanceof Grass) {
 						Point2D.Float aux = new Point2D.Float(map[i][j].x + SLOT_SIZE/2, map[i][j].y + SLOT_SIZE/2);
 						if(aux.x > x1 && aux.x < x2 && aux.y > y1 && aux.y < y2)
-							map[i][j] = new Dirt(SLOT_SIZE*j, SLOT_SIZE*i, ID.Dirt);
+							map[i][j] = new Dirt(SLOT_SIZE*j, SLOT_SIZE*i, SLOT_SIZE, SLOT_SIZE, ID.Dirt);
 					}
 				}
 			}
@@ -66,7 +66,7 @@ public class Map {
 	private void generateFullGrass() {
 		for(int i = 0; i < map.length; i++)
 			for(int j = 0; j < map[i].length; j++)
-				map[i][j] = new Grass(SLOT_SIZE*j, SLOT_SIZE*i, ID.Grass);	
+				map[i][j] = new Grass(SLOT_SIZE*j, SLOT_SIZE*i, SLOT_SIZE, SLOT_SIZE, ID.Grass);	
 	}
 	
 	public String getTitle() {

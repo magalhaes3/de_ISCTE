@@ -16,19 +16,19 @@ public abstract class Ground extends GameObject{
 		
 	}
 	
-	public float getWidth() {
+	public float getWidthF() {
 		return width;
 	}
 
-	public void setWidth(float width) {
+	public void setWidthF(float width) {
 		this.width = width;
 	}
 
-	public float getHeight() {
+	public float getHeightF() {
 		return height;
 	}
 
-	public void setHeight(float height) {
+	public void setHeightF(float height) {
 		this.height = height;
 	}
 

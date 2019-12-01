@@ -2,7 +2,9 @@ package de_ISCTE;
 
 import java.awt.Graphics;
 
-public abstract class GameObject {
+
+
+public abstract class GameObject{
 
 	protected float x;
 	protected float y;

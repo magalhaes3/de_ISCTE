@@ -5,16 +5,12 @@ import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Map {
 	public static final String[] level1maps = {"./maps/level1/Avante.txt","./maps/level1/Cidade.txt", "./maps/level1/map1.txt"};
 	public static final String[] level2maps = {"./maps/level2/Autonomo.txt", "./maps/level2/ICS.txt", "./maps/level2/Inside.txt"};
 	public static final String[] level3maps = {"./maps/level3/Estacionamento.txt", "./maps/level3/IGOT.txt"};
-//alterar points para Points2D , começar o primeiro ponto fora do ecrã
-//melhorar a função drawpath	
-// criar função exportar, que escreve o mapa num ficheiro txt
 	
 	protected static int H_SLOTS = 14;
 	protected static int V_SLOTS = 20;
@@ -22,6 +18,7 @@ public class Map {
 	
 	private String title;
 	private Ground[][] map;
+	private LinkedList<Wave> waves = new LinkedList<Wave>();
 	public LinkedList<Point2D.Float> points = new LinkedList<Point2D.Float>();
 	
 	public Map(String title) {
@@ -113,6 +110,13 @@ public class Map {
 			for(Point2D.Float aux : points)
 				writer.println("(" + aux.x + "," + aux.y + ")");
 			writer.println("endpoints");
+			for(Wave w : waves) {
+				writer.println(w.getSpawnTime()); 
+				for(Enemy e : w.getEnemyInfo())
+					writer.println(e.getClass().getSimpleName() + " (" + e.x + ", " + e.y + ") ");
+				writer.println("endwave");
+			}
+			writer.println("endwaves");
 			writer.close();
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -120,4 +124,23 @@ public class Map {
 		}
 	}
 	
+	public void addWave(Wave w) {
+		waves.add(w);
+	}
+	
+	public Wave getNextWave(Wave current) {
+		if(current == null)
+			return waves.get(0);
+		else {
+			int index = waves.indexOf(current);
+			if(index == waves.size() - 1)
+				return null; //terminar mapa
+			else
+				return waves.get(waves.indexOf(current) + 1);
+		}
+	}
+	
+	public Point2D.Float getStartPoint() {
+		return points.getFirst();
+	}
 }

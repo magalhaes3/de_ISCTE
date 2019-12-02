@@ -7,38 +7,86 @@ import java.util.LinkedList;
 
 public abstract class Enemy extends GameObject {
 
-	protected static final int SIZE = 40;
 	protected Point2D.Float target;
 	protected LinkedList<Point2D.Float> path;
 	protected BufferedImage image;
 	protected float velXY;
 	protected float hp;
 	
-	public Enemy(float x, int y, ID id) {
+	public Enemy(float x, int y, float hp, float vel, ID id) {
 		super(x, y, id);
+		this.hp = hp;
+		this.velXY = vel;
 	}
 	
 	//Meter ifs para todo o tipo de inimigos
 	public static Enemy create(int x, int y, ID id, String type) {
 		if(type.equals("Tecnico"))
-			return new Tecnico(x, y, generateHP(type), ID.Enemy);
-		if(type.equals("Exemplo1"))
-			return null;
-		if(type.equals("Exemplo2"))
-			return null;
+			return new Triangle(x, y, generateHP(type), generateVel(type), ID.Enemy);
+		if(type.equals("Square"))
+			return new Square(x, y, generateHP(type), generateVel(type), ID.Enemy);
+		if(type.equals("Pentagon"))
+			return new Pentagon(x, y, generateHP(type), generateVel(type), ID.Enemy);
 		return null;
 	}
 	
-	//Meter aqui FDP para gerar vida inimigos
-	private static float generateHP(String type) {
-		if(type.equals("Tecnico"))
-			return 0;
-		if(type.equals("Exemplo1"))
-			return 0;
-		if(type.equals("Exemplo2"))
-			return 0;
-		return 0;
+	//Gerar vida inimigos
+	//Mudar para private, public apenas para testes
+	public static float generateHP(String type) {
+		int mean = 0;
+		int stdDev = 0;
+		if(type.equals("Triangle")) {
+			mean = 100;
+			stdDev = 10;
+		}
+		if(type.equals("Square")) {
+			mean = 150;
+			stdDev = 10;
+		}
+		if(type.equals("Pentagon")) {
+			mean = 200;
+			stdDev = 10;
+		}
+		
+		double u = 0;
+		double result = 0;
+		while(u < 1) {
+			double u1 = Math.random()*((1 - (-1) )) + (-1);
+			double u2 = Math.random()*((1 - (-1) )) + (-1);
+			u = u1*u1 + u2*u2;
+			result = mean + stdDev*u1*Math.sqrt(-2 * Math.log(u)/u);
+		}
+		return (float) result;	
 	}
+	
+	//Gerar velocidade inimigos
+	//Mudar para private, public apenas para testes
+		public static float generateVel(String type) {
+			float mean = 0;
+			float stdDev = 0;
+			if(type.equals("Triangle")) {
+				mean = 4;
+				stdDev = 0.2f;
+			}
+			if(type.equals("Square")) {
+				mean = 2;
+				stdDev = 0.5f;
+			}
+			if(type.equals("Pentagon")) {
+				mean = 1;
+				stdDev = 0.7f;
+			}
+			
+			double u = 0;
+			double result = 0;
+			while(u < 1) {
+				double u1 = Math.random()*((1 - (-1) )) + (-1);
+				double u2 = Math.random()*((1 - (-1) )) + (-1);
+				u = u1*u1 + u2*u2;
+				result = mean + stdDev*u1*Math.sqrt(-2 * Math.log(u)/u);
+			}
+			return (float) result;	
+		}
 	
 	public float getHP() {
 		return hp;
@@ -57,7 +105,7 @@ public abstract class Enemy extends GameObject {
 	}
 	
 	
-	
+	//Mudar movimento
 	@Override
 	public void tick() {
 		if(path == null) {

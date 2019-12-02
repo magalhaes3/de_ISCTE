@@ -219,17 +219,17 @@ public class Game extends Canvas implements Runnable{
 				}
 				
 				//Descomentar código para testar waves
-				/*
+				
 				Wave w1 = new Wave(1000);
-				w1.addEnemyPassive(new Tecnico((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, 100, ID.Enemy));
-				w1.addEnemyPassive(new Tecnico((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, 100, ID.Enemy));
-				w1.addEnemyPassive(new Tecnico((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, 100, ID.Enemy));
-				w1.addEnemyPassive(new Tecnico((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, 100, ID.Enemy));
-				w1.addEnemyPassive(new Tecnico((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, 100, ID.Enemy));
-				w1.addEnemyPassive(new Tecnico((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, 100, ID.Enemy));
-				w1.addEnemyPassive(new Tecnico((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, 100,ID.Enemy));
+				w1.addEnemyPassive(new Triangle((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Triangle"), Enemy.generateVel("Triangle"), ID.Enemy));
+				w1.addEnemyPassive(new Square((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Square"), Enemy.generateVel("Square"), ID.Enemy));
+				w1.addEnemyPassive(new Pentagon((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Pentagon"), Enemy.generateVel("Pentagon"), ID.Enemy));
+				w1.addEnemyPassive(new Square((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Square"), Enemy.generateVel("Square"), ID.Enemy));
+				w1.addEnemyPassive(new Triangle((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Triangle"), Enemy.generateVel("Triangle"), ID.Enemy));
+				w1.addEnemyPassive(new Pentagon((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Pentagon"), Enemy.generateVel("Pentagon"), ID.Enemy));
+				w1.addEnemyPassive(new Pentagon((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Pentagon"), Enemy.generateVel("Pentagon"), ID.Enemy));
 				aux.addWave(w1);
-				*/
+				
 				
 				currentMap = aux;
 				

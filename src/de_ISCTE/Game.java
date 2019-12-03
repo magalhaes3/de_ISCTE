@@ -2,6 +2,7 @@ package de_ISCTE;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
 import java.io.File;
@@ -12,13 +13,14 @@ import java.util.Scanner;
 
 public class Game extends Canvas implements Runnable{
 	
-	public static int WIDTH = Map.SLOT_SIZE*Map.V_SLOTS + 6; //986, slots*n colunas + parte da janela
-	public static int HEIGHT = Map.SLOT_SIZE*Map.H_SLOTS + 29; //715 slots*n linhas + parte da janela
+	public static int WIDTH = GameObject.SIZE*Map.V_SLOTS + 6; //986, slots*n colunas + parte da janela
+	public static int HEIGHT = GameObject.SIZE*Map.H_SLOTS + 29; //715 slots*n linhas + parte da janela
 	public String title = "Defend de_ISCTE";
 	
 	private Thread thread;
 	private boolean isRunning = false;
 	
+	private Player player = new Player(30);
 	private LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
 	private Map currentMap;
 	private Wave currentWave;
@@ -129,10 +131,11 @@ public class Game extends Canvas implements Runnable{
 	
 	public void tick() {
 		//update game
-		if(currentWave != null)
+		if(currentWave != null) {
 			currentWave.tick();
+		}
 		for(GameObject tempObject : gameObjects) {
-			tempObject.tick();
+			tempObject.tick();			
 		}
 	}
 	
@@ -150,7 +153,8 @@ public class Game extends Canvas implements Runnable{
 		
 		if(currentMap != null) {
 			currentMap.render(g);		
-			currentWave.render(g);
+			if(currentWave != null) 
+				currentWave.render(g);
 		}
 		//---------------------
 		
@@ -170,6 +174,10 @@ public class Game extends Canvas implements Runnable{
 	
 	public Map getCurrentMap() {
 		return currentMap;
+	}
+	
+	public LinkedList<GameObject> getGameObjects() {
+		return gameObjects;
 	}
 	
 	public void addObject(GameObject tempObject) {
@@ -234,6 +242,7 @@ public class Game extends Canvas implements Runnable{
 				currentMap = aux;
 				
 				currentMap.drawPath();
+				addMapToGame();
 			}
 			//else se estiver vazio
 		} catch (FileNotFoundException e) {
@@ -241,6 +250,15 @@ public class Game extends Canvas implements Runnable{
 		}
 
 	}
+	
+	
+	//adicionar grid à lista GameObjects para ser updated
+	private void addMapToGame() {
+		for(int i = 0; i < currentMap.getGrid().length; i++)
+			for(int j = 0; j < currentMap.getGrid()[i].length; j++) 
+				addObject(currentMap.getGrid()[i][j]);
+	}
+	
 	
 	private void nextWave() {
 		currentWave = currentMap.getNextWave(currentWave);
@@ -250,6 +268,12 @@ public class Game extends Canvas implements Runnable{
 		return GAME;
 	}
 	
+	public Point2D getMouseLocation() {
+		double x = MouseInfo.getPointerInfo().getLocation().getX() - this.getLocationOnScreen().getX();
+		double y = MouseInfo.getPointerInfo().getLocation().getY() - this.getLocationOnScreen().getY();
+		Point2D result = new Point2D.Double(x,y);
+		return result;
+	}
 	
 	public static void main(String[] args) {
 		//new Game();

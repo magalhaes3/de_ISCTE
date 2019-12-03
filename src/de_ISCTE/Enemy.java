@@ -10,13 +10,13 @@ public abstract class Enemy extends GameObject {
 	protected Point2D.Float target;
 	protected LinkedList<Point2D.Float> path;
 	protected BufferedImage image;
-	protected float velXY;
+	protected float vel;
 	protected float hp;
 	
 	public Enemy(float x, int y, float hp, float vel, ID id) {
 		super(x, y, id);
 		this.hp = hp;
-		this.velXY = vel;
+		this.vel = vel;
 	}
 	
 	//Meter ifs para todo o tipo de inimigos
@@ -96,12 +96,12 @@ public abstract class Enemy extends GameObject {
 		hp = value;
 	}
 	
-	public float getVelXY() {
-		return velXY;
+	public float getVel() {
+		return vel;
 	}
 	
-	public void setVelXY(float value) {
-		velXY = value;
+	public void setVel(float value) {
+		vel = value;
 	}
 	
 	
@@ -124,28 +124,28 @@ public abstract class Enemy extends GameObject {
 			float tempy = y - target.y;
 			
 			if(tempx < 0) {
-				if( Math.abs(tempx) < velXY)
+				if( Math.abs(tempx) < vel)
 					x = target.x;
 				else
-					x += velXY;
+					x += vel;
 			}
 			else if ( tempx > 0) {
-				if( tempx < velXY)
+				if( tempx < vel)
 					x = target.x;
 				else
-					x -= velXY;
+					x -= vel;
 			}
 			if( tempy < 0) {
-				if( Math.abs(tempy) < velXY)
+				if( Math.abs(tempy) < vel)
 					y = target.y;
 				else
-					y += velXY;
+					y += vel;
 			}
 			else if ( tempy > 0) {
-				if( tempy < velXY)
+				if( tempy < vel)
 					y = target.y;
 				else
-					y -= velXY;
+					y -= vel;
 			}
 		}
 	}

@@ -11,6 +11,11 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
+import Enemies.Enemy;
+import Enemies.Pentagon;
+import Enemies.Square;
+import Enemies.Triangle;
+
 public class Game extends Canvas implements Runnable{
 	
 	public static int WIDTH = GameObject.SIZE*Map.V_SLOTS + 6; //986, slots*n colunas + parte da janela
@@ -122,6 +127,7 @@ public class Game extends Canvas implements Runnable{
 			if(System.currentTimeMillis() - timer > 1000){
 				timer += 1000;
 				System.out.println("FPS: " + frames + " TICKS: " + updates);
+				//System.out.println(player.getTile());
 				frames = 0;
 				updates = 0;
 			}

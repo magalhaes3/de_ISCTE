@@ -1,9 +1,13 @@
-package de_ISCTE;
+package Enemies;
 
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+
+import de_ISCTE.Game;
+import de_ISCTE.GameObject;
+import de_ISCTE.ID;
 
 public abstract class Enemy extends GameObject {
 
@@ -79,11 +83,13 @@ public abstract class Enemy extends GameObject {
 			
 			double u = 0;
 			double result = 0;
-			while(u < 1) {
+			while(true) {
 				double u1 = Math.random()*((1 - (-1) )) + (-1);
 				double u2 = Math.random()*((1 - (-1) )) + (-1);
 				u = u1*u1 + u2*u2;
 				result = mean + stdDev*u1*Math.sqrt(-2 * Math.log(u)/u);
+				if(u < 1) 
+					break;
 			}
 			return (float) result;	
 		}
@@ -113,7 +119,7 @@ public abstract class Enemy extends GameObject {
 			target = path.getFirst();
 		}
 		// pertence na classe enemy
-		//System.out.println("X: " + x + ", Y: " + y);
+		//sSystem.out.println("X: " + x + ", Y: " + y);
 		if(target.x == this.getX() && target.y == this.getY()) {
 			if(target != path.getLast()) {
 				target = path.get(path.indexOf(target) + 1);

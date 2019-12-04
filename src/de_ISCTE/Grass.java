@@ -11,7 +11,7 @@ public class Grass extends Ground{
 	public Grass(float x, float y, float width, float height, ID id) {
 		super(x, y, width, height, id);
 		try {
-			image = ImageIO.read(new File("Grass.jpg"));
+			image = ImageIO.read(new File("textures/Grass.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -3,6 +3,8 @@ package de_ISCTE;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
+import Enemies.Enemy;
+
 public class Wave {
 
 	private float timeSinceLastSpawn, spawnTime;
@@ -34,7 +36,7 @@ public class Wave {
 			Enemy e = enemyInfo.pop();
 			enemyList.add(e);
 			Game.getInstance().addObject(e);
-			System.out.println("Spawn!");
+			//System.out.println("Spawn!");
 		}
 		
 	}

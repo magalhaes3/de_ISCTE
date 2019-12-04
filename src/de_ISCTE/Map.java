@@ -120,4 +120,14 @@ public class Map {
 		}
 	}
 	
+	@Override
+	public String toString() {
+		String toReturn = "";
+		for(Ground[] g : map) {
+			for(Ground g1 : g) {
+				toReturn += g1.getX() + " " + g1.getY() + "\n";
+			}
+		}
+		return toReturn;
+	}
 }

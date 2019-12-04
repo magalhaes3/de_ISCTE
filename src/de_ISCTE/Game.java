@@ -211,9 +211,18 @@ public class Game extends Canvas implements Runnable{
 		}
 		
 	}
+
 	
 	public static void main(String[] args) {
-		new Game();
+		Game game = new Game();
+		SampleTurret sp = new SampleTurret(1, 1, ID.Turret);
+		game.addObject(sp);
+		System.out.println("-------------");
+		System.out.println(game.gameObjects);
+		System.out.println("-------------");
+		System.out.println("-------------");
+		System.out.println(game.currentMap);
+		System.out.println("-------------");
 	}
 	
 }

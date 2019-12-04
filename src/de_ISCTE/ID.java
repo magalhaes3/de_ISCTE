@@ -5,5 +5,6 @@ public enum ID {
 	Enemy(),
 	Turret(),
 	Grass(),
-	Dirt();
+	Dirt(),
+	Information();
 }

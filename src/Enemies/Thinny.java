@@ -7,12 +7,12 @@ import javax.imageio.ImageIO;
 
 import de_ISCTE.ID;
 
-public class Triangle extends Enemy{
+public class Thinny extends Enemy{
 	
-	public Triangle(int x, int y, float hp, float vel, ID id) {
-		super(x, y, hp, vel, id);
+	public Thinny(int x, int y, float hp, float vel) {
+		super(x, y, hp, vel);
 		try {
-			super.image = ImageIO.read(new File("textures/Triangle.png"));
+			super.image = ImageIO.read(new File("textures/Thinny1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

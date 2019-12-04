@@ -7,16 +7,16 @@ import javax.imageio.ImageIO;
 
 import de_ISCTE.ID;
 
-public class Square extends Enemy{
+public class Fatso extends Enemy{
 
-	public Square(int x, int y, float hp, float vel, ID id) {
-		super(x, y, hp, vel, id);
+	public Fatso(int x, int y, float hp, float vel) {
+		super(x, y, hp, vel);
 		try {
-			super.image = ImageIO.read(new File("textures/Square.png"));
+			super.image = ImageIO.read(new File("textures/Fatso1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		this.setXY(x, y);
 	}
-	
+
 }

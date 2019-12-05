@@ -12,10 +12,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 import Enemies.Enemy;
-import Enemies.Pentagon;
-import Enemies.Square;
-import Enemies.Triangle;
 import machines.Machine;
+import Enemies.Fatso;
+import Enemies.Cool;
+import Enemies.Thinny;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -238,13 +238,13 @@ public class Game extends Canvas implements Runnable{
 				//Descomentar código para testar waves
 				
 				Wave w1 = new Wave(1000);
-				w1.addEnemyPassive(new Triangle((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Triangle"), Enemy.generateVel("Triangle"), ID.Enemy));
-				w1.addEnemyPassive(new Square((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Square"), Enemy.generateVel("Square"), ID.Enemy));
-				w1.addEnemyPassive(new Pentagon((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Pentagon"), Enemy.generateVel("Pentagon"), ID.Enemy));
-				w1.addEnemyPassive(new Square((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Square"), Enemy.generateVel("Square"), ID.Enemy));
-				w1.addEnemyPassive(new Triangle((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Triangle"), Enemy.generateVel("Triangle"), ID.Enemy));
-				w1.addEnemyPassive(new Pentagon((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Pentagon"), Enemy.generateVel("Pentagon"), ID.Enemy));
-				w1.addEnemyPassive(new Pentagon((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Pentagon"), Enemy.generateVel("Pentagon"), ID.Enemy));
+				w1.addEnemyPassive(new Thinny((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
+				w1.addEnemyPassive(new Cool((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Cool"), Enemy.generateVel("Cool")));
+				w1.addEnemyPassive(new Fatso((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
+				w1.addEnemyPassive(new Cool((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Cool"), Enemy.generateVel("Cool")));
+				w1.addEnemyPassive(new Thinny((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
+				w1.addEnemyPassive(new Fatso((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
+				w1.addEnemyPassive(new Fatso((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
 				aux.addWave(w1);
 				
 				

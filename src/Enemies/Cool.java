@@ -7,16 +7,16 @@ import javax.imageio.ImageIO;
 
 import de_ISCTE.ID;
 
-public class Pentagon extends Enemy{
+public class Cool extends Enemy{
 
-	public Pentagon(int x, int y, float hp, float vel, ID id) {
-		super(x, y, hp, vel, id);
+	public Cool(int x, int y, float hp, float vel) {
+		super(x, y, hp, vel);
 		try {
-			super.image = ImageIO.read(new File("textures/Pentagon.png"));
+			super.image = ImageIO.read(new File("textures/Cool1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		this.setXY(x, y);
 	}
-
+	
 }

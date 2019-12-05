@@ -9,8 +9,8 @@ import javax.imageio.ImageIO;
 
 public class Dirt extends Ground {
 	
-	public Dirt(float x, float y, ID id) {
-		super(x, y, id);
+	public Dirt(float x, float y, float width, float height, ID id) {
+		super(x, y, width, height, id);
 		/*try {
 			image = ImageIO.read(new File("Dirt.jpg"));
 		} catch (IOException e) {
@@ -28,7 +28,7 @@ public class Dirt extends Ground {
 	@Override
 	public void render(Graphics g) {
 		g.setColor(new Color(212, 157, 74));
-		g.fillRect((int)x, (int)y, Map.SLOT_SIZE, Map.SLOT_SIZE);
+		g.fillRect((int)x, (int)y, GameObject.SIZE, GameObject.SIZE);
 		//g.drawImage(image, (int)x, (int)y, Map.SLOT_SIZE, Map.SLOT_SIZE, null);
 	}
 

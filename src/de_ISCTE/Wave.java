@@ -29,6 +29,11 @@ public class Wave {
 			spawn();
 			timeSinceLastSpawn = 0;
 		}
+		for(Enemy e : enemyList) {
+			if(e.getHP() <= 0) {
+				Game.getInstance().removeObject(e);
+			}
+		}
 	}
 	
 	private void spawn() {

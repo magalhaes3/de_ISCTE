@@ -21,25 +21,52 @@ public class Machine extends GameObject {
         this.range = range;
     }
 
+    private LinkedList<Enemy> enemiesList = new LinkedList<>();
+    private LinkedList<Enemy> toRemove = new LinkedList<Enemy>();
     
-
     @Override
     public void tick() {
-        LinkedList<Enemy> enemiesList = getEnemiesInRange();
+        updateEnemiesList();
         if(!enemiesList.isEmpty()) {
         	Enemy toShoot = enemiesList.getFirst();
         	toShoot.setHP(toShoot.getHP() - 1);
         }
+        enemiesList.removeAll(toRemove);
     }
-    
+   
     private LinkedList<Enemy> getEnemiesInRange() {
-    	LinkedList<Enemy> tempList = new LinkedList<>();
+    	LinkedList<Enemy> toReturn = new LinkedList<>();
     	for(GameObject temp : Game.getInstance().getGameObjects()) {
     		if(enemyInRange(temp)) {
-    			tempList.add((Enemy) temp);
+    			toReturn.add((Enemy) temp);
     		}
     	}
-    	return tempList;
+    	return toReturn;
+    }
+    
+    boolean firstTimeLoading = true;
+    
+    private void updateEnemiesList() {
+    	if(firstTimeLoading) {
+    		enemiesList = getEnemiesInRange();
+    		firstTimeLoading = false;
+    	}
+    	for(GameObject temp : Game.getInstance().getGameObjects()) {
+    		if(enemyInRange(temp)) {
+    			if(!enemiesList.contains(temp)) {
+    				enemiesList.add((Enemy) temp);
+    			}
+    		} else {
+    			if(enemiesList.contains(temp)) {
+    				toRemove.add((Enemy) temp);
+    			}
+    		}
+    	}
+    	for(Enemy enemy : enemiesList) {
+    		if(enemy.getHP() <= 0) {
+    			toRemove.add(enemy);
+    		}
+    	}
     }
     
     private boolean enemyInRange(GameObject obj) {

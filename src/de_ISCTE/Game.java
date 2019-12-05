@@ -15,6 +15,7 @@ import Enemies.Enemy;
 import Enemies.Pentagon;
 import Enemies.Square;
 import Enemies.Triangle;
+import machines.Machine;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -42,6 +43,8 @@ public class Game extends Canvas implements Runnable{
 		
 		init();
 	//INSTANCE s� deixa de ser null quando o construtor termina 
+		Machine teste = new Machine(200, 10, ID.Turret, 1000);
+		this.addObject(teste);
 	}
 	
 	/*

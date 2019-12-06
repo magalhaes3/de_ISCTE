@@ -15,21 +15,32 @@ public class Machine extends GameObject {
 
     private int range;
     private BufferedImage image;
-
-    public Machine(float x, float y, ID id, int range) {
-        super(x, y, id);
-        this.range = range;
-    }
+    private int damage;
 
     private LinkedList<Enemy> enemiesList = new LinkedList<>();
     private LinkedList<Enemy> toRemove = new LinkedList<Enemy>();
+
+    public Machine(float x, float y, ID id, int range) {
+        super(x, y, id);
+        this.range = range * GameObject.SIZE;
+        this.damage = 10;
+    }
     
-    @Override
+    public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+
+
+	@Override
     public void tick() {
         updateEnemiesList();
         if(!enemiesList.isEmpty()) {
-        	Enemy toShoot = enemiesList.getFirst();
-        	toShoot.setHP(toShoot.getHP() - 1);
+        	Enemy toShoot = getEnemyCloserToTarget();
+        	toShoot.setHP(toShoot.getHP() - this.damage);
         }
         enemiesList.removeAll(toRemove);
     }
@@ -57,6 +68,8 @@ public class Machine extends GameObject {
     				enemiesList.add((Enemy) temp);
     			}
     		} else {
+//    			Se o inimigo estiver já fora de range mas já esteve em range tem de entrar aqui 
+//    			para sair da lista
     			if(enemiesList.contains(temp)) {
     				toRemove.add((Enemy) temp);
     			}
@@ -70,7 +83,7 @@ public class Machine extends GameObject {
     }
     
     private boolean enemyInRange(GameObject obj) {
-    	if(obj == this || obj.getId() != ID.Enemy) {
+    	if(obj.getId() != ID.Enemy || obj.getX() < 0 || obj.getY() < 0 || obj.getX() >= Game.WIDTH || obj.getY() >= Game.HEIGHT) {
     		return false;
     	}
     	if(obj.getX() > this.getX() - this.range && obj.getX() < this.getX() + this.range && obj.getY() > this.getY() - this.range && obj.getY() < this.getY() + this.range) {
@@ -80,6 +93,16 @@ public class Machine extends GameObject {
 		}
     }
 
+    private Enemy getEnemyCloserToTarget() {
+    	Enemy toReturn = enemiesList.getFirst();
+    	for(Enemy ex : enemiesList) {
+    		if(ex.getRemainingDistance() < toReturn.getRemainingDistance()) {
+    			toReturn = ex;
+    		}
+    	}
+    	return toReturn;
+    }
+    
     @Override
     public void render(Graphics g) {
     	g.setColor(Color.white);

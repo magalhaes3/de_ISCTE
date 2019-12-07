@@ -32,7 +32,7 @@ public class Machine extends GameObject {
 		}
     }
 
-    
+    //mesma coisa aqui
     public static int getPrice(String type) {
     	if(type.equals("Machine"))
     		return 1000;
@@ -49,6 +49,13 @@ public class Machine extends GameObject {
 			e.printStackTrace();
 		}
     	return image;
+    }
+    
+    //Meter aqui o resto das máquinas
+    public static Machine create(String type, int x, int y, int range) {
+    	if(type.equals("Machine"))
+    		return new Machine(x, y, ID.Turret, 490);
+    	return null;
     }
     
     
@@ -93,7 +100,6 @@ public class Machine extends GameObject {
     	for(Enemy enemy : enemiesList) {
     		if(enemy.getHP() <= 0) {
     			toRemove.add(enemy);
-    			Game.getInstance().getCurrentWave().enemyDied();
     		}
     	}
     }

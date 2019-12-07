@@ -27,33 +27,33 @@ public class MachineContainer extends JPanel{
 		gbc.gridy = 0;
 		gbc.insets = new Insets(0,0,20,24);
 		add(mp, gbc);
-		/*
-		MachinePanel mp1 = new MachinePanel(new Machine(-1000,-1000, ID.Turret, 0));
+		
+		MachinePanel mp1 = new MachinePanel("Machine");
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.insets = new Insets(0,0,20,24);
 		add(mp1, gbc);
 		
-		MachinePanel mp2 = new MachinePanel(new Machine(-1000,-1000, ID.Turret, 0));
+		MachinePanel mp2 = new MachinePanel("Machine");
 		gbc.gridx = 2;
 		gbc.gridy = 0;
 		gbc.insets = new Insets(0,0,20,0);
 		add(mp2, gbc);
-		
-		MachinePanel mp3 = new MachinePanel(new Machine(-1000,-1000, ID.Turret, 0));
+		/*
+		MachinePanel mp3 = new MachinePanel("Machine");
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.insets = new Insets(0,0,20,24);
 		add(mp3, gbc);
 		
 		
-		MachinePanel mp4 = new MachinePanel(new Machine(-1000,-1000, ID.Turret, 0));
+		MachinePanel mp4 = new MachinePanel("Machine");
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		gbc.insets = new Insets(0,0,20,24);
 		add(mp4, gbc);
 		
-		MachinePanel mp5 = new MachinePanel(new Machine(-1000,-1000, ID.Turret, 0));
+		MachinePanel mp5 = new MachinePanel("Machine");
 		gbc.gridx = 2;
 		gbc.gridy = 1;
 		gbc.insets = new Insets(0,0,20,0);

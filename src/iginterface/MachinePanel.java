@@ -24,6 +24,7 @@ public class MachinePanel extends JPanel{
 		c = Color.BLACK;
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				Game.getInstance().getPlayer().insertMachine(machine);
 				c = Color.RED;
 				repaint();
 			}

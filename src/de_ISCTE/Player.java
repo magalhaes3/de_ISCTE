@@ -1,9 +1,17 @@
 package de_ISCTE;
 
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import machines.Machine;
 
 public class Player implements MouseListener, KeyListener{
 
@@ -11,10 +19,11 @@ public class Player implements MouseListener, KeyListener{
 	private int maxHP;
 	private int points;
 	private boolean insertMode = false;
+	private String machine = "";
 	
 	public Player(int hp) {
 		this.hp = hp;
-		this.points = 0;
+		this.points = 10000;
 		this.maxHP = hp;
 	}
 	
@@ -40,6 +49,28 @@ public class Player implements MouseListener, KeyListener{
 	}
 
 
+	public void insertMachine(String machine) {
+		insertMode = true;
+		this.machine = machine;
+	}
+	
+	public void render(Graphics g) {
+		System.out.println("Está");
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File("textures/" + machine + ".png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		g.drawImage(image, (int)Game.getInstance().getMouseLocation().getX(), (int)Game.getInstance().getMouseLocation().getY(), GameObject.SIZE, GameObject.SIZE, null);
+	}
+	
+	public boolean getInsertMode() {
+		return insertMode;
+	}
+	
+	
 	public void addInput() {
 		Game.getInstance().addMouseListener(this);
 		Game.getInstance().addKeyListener(this);
@@ -48,7 +79,15 @@ public class Player implements MouseListener, KeyListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		System.out.println(getTile());
+		GameObject tile = getTile();
+		if(insertMode && tile instanceof Grass && ((Grass)tile).spot) {
+			if(Machine.getPrice(machine) <= points) {
+				((Grass)tile).setSpot(false);
+				Game.getInstance().addObject(Machine.create(machine, (int)tile.getX(), (int)tile.getY(), 49));
+				points = points - Machine.getPrice(machine);
+			}
+		}
+		insertMode = false;
 		
 	}
 
@@ -83,8 +122,10 @@ public class Player implements MouseListener, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_S);
-			System.out.println("OIOI");
+		if(e.getKeyCode() == KeyEvent.VK_S) {
+			System.out.println("Pressed S");
+			insertMode = false;
+		}
 		
 	}
 

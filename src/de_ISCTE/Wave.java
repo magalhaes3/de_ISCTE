@@ -10,6 +10,7 @@ public class Wave {
 	private float timeSinceLastSpawn, spawnTime;
 	private LinkedList<Enemy> enemyInfo;
 	private LinkedList<Enemy> enemyList;
+	private LinkedList<Enemy> toRemove = new LinkedList<Enemy>();
 	private int id;
 	private int totalEnemies;
 	private int aliveEnemies;
@@ -40,9 +41,13 @@ public class Wave {
 		}
 		for(Enemy e : enemyList) {
 			if(e.getHP() <= 0) {
+				toRemove.add(e);
 				Game.getInstance().removeObject(e);
+    			enemyDied();
 			}
 		}
+		enemyList.removeAll(toRemove);
+		toRemove.clear();
 	}
 	
 	private void spawn() {

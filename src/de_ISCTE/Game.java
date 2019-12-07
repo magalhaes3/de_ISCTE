@@ -29,7 +29,11 @@ public class Game extends Canvas implements Runnable{
 	private boolean isRunning = false;
 	
 	private Player player = new Player(30);
+	
 	private LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+	private LinkedList<GameObject> objectsToAdd = new LinkedList<GameObject>();
+	private LinkedList<GameObject> objectsToRemove = new LinkedList<GameObject>();
+	
 	private Map currentMap;
 	private Wave currentWave;
 	
@@ -165,16 +169,17 @@ public class Game extends Canvas implements Runnable{
 		Graphics g = bs.getDrawGraphics();
 		////////////////////////////////////
 		
-		
-		if(currentMap != null) {
-			currentMap.render(g);		
-			if(currentWave != null) 
-				currentWave.render(g);
-		}
+//		if(currentMap != null) {
+//			currentMap.render(g);		
+//			if(currentWave != null) 
+//				currentWave.render(g);
+//		}
 		//---------------------
 		
 		
 		renderGameObjects(g);
+		if(player.getInsertMode()) 
+			player.render(g);
 		////////////////////////////////////
 		bs.show();
 		g.dispose();
@@ -185,6 +190,10 @@ public class Game extends Canvas implements Runnable{
 		for(GameObject tempObject : gameObjects) {
 			tempObject.render(g);
 		}
+		gameObjects.addAll(objectsToAdd);
+		objectsToAdd.clear();
+		gameObjects.removeAll(objectsToRemove);
+		objectsToRemove.clear();
 	}
 	
 	public Map getCurrentMap() {
@@ -204,11 +213,11 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	public void addObject(GameObject tempObject) {
-		gameObjects.add(tempObject);
+		objectsToAdd.add(tempObject);		
 	}
 	
 	public void removeObject(GameObject tempObject) {
-		gameObjects.remove(tempObject);
+		objectsToRemove.add(tempObject);
 	}
 	
 	private void loadMap(String path) {

@@ -11,11 +11,11 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
-import Enemies.Enemy;
+import enemies.Cool;
+import enemies.Enemy;
+import enemies.Fatso;
+import enemies.Thinny;
 import machines.Machine;
-import Enemies.Fatso;
-import Enemies.Cool;
-import Enemies.Thinny;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -43,7 +43,7 @@ public class Game extends Canvas implements Runnable{
 		
 		init();
 	//INSTANCE s� deixa de ser null quando o construtor termina 
-		Machine teste = new Machine(200, 10, ID.Turret, 500);
+		Machine teste = new Machine(49*4, 0, ID.Turret, 49*5);
 		this.addObject(teste);
 	}
 	
@@ -69,6 +69,7 @@ public class Game extends Canvas implements Runnable{
 	private void init() {
 		//TODO inserir aqui um m�todo para escolher o path do mapa
 //		loadMap("./maps/level3/IGOT.txt");
+
 		loadMap(chooseMap());
 		nextWave();		
 	}
@@ -107,6 +108,7 @@ public class Game extends Canvas implements Runnable{
 	@Override
 	//gameloop
 	public void run() {
+		addPlayerInput();
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
@@ -282,6 +284,10 @@ public class Game extends Canvas implements Runnable{
 		double y = MouseInfo.getPointerInfo().getLocation().getY() - this.getLocationOnScreen().getY();
 		Point2D result = new Point2D.Double(x,y);
 		return result;
+	}
+	
+	public void addPlayerInput() {
+		player.addInput();
 	}
 
 	

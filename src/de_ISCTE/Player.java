@@ -1,11 +1,16 @@
 package de_ISCTE;
 
-public class Player {
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class Player implements MouseListener{
 
 	private int hp;
+	private int points;
 	
 	public Player(int hp) {
 		this.hp = hp;
+		this.points = 0;
 	}
 	
 	
@@ -28,6 +33,48 @@ public class Player {
 			return go;
 		return null;
 	}
+
+
+	public void addInput() {
+		Game.getInstance().addMouseListener(this);
+
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		System.out.println(getTile());
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 	
 	
 }

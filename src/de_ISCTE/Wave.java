@@ -3,7 +3,7 @@ package de_ISCTE;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
-import Enemies.Enemy;
+import enemies.Enemy;
 
 public class Wave {
 

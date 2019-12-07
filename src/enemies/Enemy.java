@@ -1,4 +1,4 @@
-package Enemies;
+package enemies;
 
 import java.awt.Graphics;
 import java.awt.geom.Point2D;

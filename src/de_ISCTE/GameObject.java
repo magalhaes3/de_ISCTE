@@ -6,7 +6,7 @@ import java.awt.Graphics;
 
 public abstract class GameObject{
 
-	protected static final int SIZE = 49;
+	public static final int SIZE = 49;
 	protected float x;
 	protected float y;
 

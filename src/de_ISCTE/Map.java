@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 
-import Enemies.Enemy;
+import enemies.Enemy;
 
 public class Map {
 	public static final String[] level1maps = {"./maps/level1/Avante.txt","./maps/level1/Cidade.txt", "./maps/level1/map1.txt"};

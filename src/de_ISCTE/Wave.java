@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.util.LinkedList;
 
 import Enemies.Enemy;
+import machines.FastTurret;
+import machines.Machine;
+import machines.Tank;
 
 public class Wave {
 

@@ -11,11 +11,13 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
-import Enemies.Enemy;
-import machines.Machine;
-import Enemies.Fatso;
 import Enemies.Cool;
+import Enemies.Enemy;
+import Enemies.Fatso;
 import Enemies.Thinny;
+import machines.FastTurret;
+import machines.Machine;
+import machines.Tank;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -43,8 +45,6 @@ public class Game extends Canvas implements Runnable{
 		
 		init();
 	//INSTANCE s� deixa de ser null quando o construtor termina 
-		Machine teste = new Machine(200, 10, ID.Turret, 500);
-		this.addObject(teste);
 	}
 	
 	/*
@@ -287,6 +287,10 @@ public class Game extends Canvas implements Runnable{
 	
 	public static void main(String[] args) {
 		//new Game();
+		Machine teste = new FastTurret(200, 10);
+		Machine teste2 = new Tank(250, 10);
+		Game.getInstance().addObject(teste);
+		Game.getInstance().addObject(teste2);
 	}
 	
 	

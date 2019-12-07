@@ -15,13 +15,11 @@ import machines.Machine;
 
 public class MachinePanel extends JPanel{
 
-	private Machine mach;
 	private MachineLabel machLabel;
 	private Color c;
 	
-	public MachinePanel(Machine mach) {
-		this.mach = mach;
-		this.machLabel = new MachineLabel(mach.getCost());
+	public MachinePanel(String machine) {
+		this.machLabel = new MachineLabel(Machine.getPrice(machine));
 		
 		c = Color.BLACK;
 		addMouseListener(new MouseAdapter() {
@@ -42,7 +40,7 @@ public class MachinePanel extends JPanel{
 		});
 		
 		
-		MachineImage mip = new MachineImage(mach.getImage());
+		MachineImage mip = new MachineImage(Machine.getImage(machine));
 	
 		GridBagConstraints gbc = new GridBagConstraints();
 		GridBagLayout gb = new GridBagLayout();
@@ -62,11 +60,7 @@ public class MachinePanel extends JPanel{
 	public MachineLabel getMachLabel() {
 		return machLabel;
 	}
-	
-	public Machine getMachine() {
-		return mach;
-	}
-	
+		
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(c);

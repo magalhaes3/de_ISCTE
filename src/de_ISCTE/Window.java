@@ -10,10 +10,9 @@ import iginterface.InGameInterface;
 
 public class Window {
 	
-	public Window(int width, int height, String title, Game game) {
+	public Window(int width, int height, String title, Game game, InGameInterface igi) {
 		
-		InGameInterface a = new InGameInterface();
-		width = width + (int)a.getPreferredSize().getWidth();
+		width = width + (int)igi.getPreferredSize().getWidth();
 		JFrame frame = new JFrame(title);
 		frame.setPreferredSize(new Dimension(width, height));
 		frame.setMaximumSize(new Dimension(width, height));
@@ -25,7 +24,7 @@ public class Window {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.add(game, BorderLayout.CENTER);
-		frame.add(a, BorderLayout.EAST);
+		frame.add(igi, BorderLayout.EAST);
 		frame.setVisible(true);
 	}
 	

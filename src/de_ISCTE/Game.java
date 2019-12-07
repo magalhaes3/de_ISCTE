@@ -15,6 +15,9 @@ import enemies.Cool;
 import enemies.Enemy;
 import enemies.Fatso;
 import enemies.Thinny;
+import iginterface.InGameInterface;
+import iginterface.InterfaceUpdater;
+import machines.Machine;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -32,12 +35,16 @@ public class Game extends Canvas implements Runnable{
 	
 	private int currentLevel;
 	
+	
+	private InterfaceUpdater iu;
 	private static final Game GAME = new Game();
 	
 //	Privado porque sï¿½ usado internamente para debugging
 	private Game() {
 		
-		new Window(WIDTH, HEIGHT, title, this);
+		InGameInterface igi = new InGameInterface();
+		iu = new InterfaceUpdater(igi);
+		new Window(WIDTH, HEIGHT, title, this, igi);
 		start();
 		
 		init();
@@ -144,6 +151,7 @@ public class Game extends Canvas implements Runnable{
 		for(GameObject tempObject : gameObjects) {
 			tempObject.tick();			
 		}
+		iu.tick();
 	}
 	
 	private void render() {
@@ -183,6 +191,14 @@ public class Game extends Canvas implements Runnable{
 		return currentMap;
 	}
 	
+	public Wave getCurrentWave() {
+		return currentWave;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
 	public LinkedList<GameObject> getGameObjects() {
 		return gameObjects;
 	}
@@ -220,7 +236,9 @@ public class Game extends Canvas implements Runnable{
 				while(sc.hasNextLine() && line != "endwaves") {
 					line = sc.nextLine();
 					float spawnTime = Float.parseFloat(line);
-					Wave w = new Wave(spawnTime);
+					line = sc.nextLine();
+					int id = Integer.parseInt(line);
+					Wave w = new Wave(spawnTime, id);
 					while(sc.hasNextLine() && line != "endwave") {
 						line = sc.nextLine();
 						String[] args = line.split(" ");
@@ -230,12 +248,13 @@ public class Game extends Canvas implements Runnable{
 						float y = Float.parseFloat(coord[1]);
 						w.addEnemyPassive(Enemy.create((int)x, (int)y, ID.Enemy, classe));
 					}
+					w.setup();
 					aux.addWave(w);
 				}
 				
 				//Descomentar código para testar waves
 				
-				Wave w1 = new Wave(1000);
+				Wave w1 = new Wave(1000, 1);
 				w1.addEnemyPassive(new Thinny((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
 				w1.addEnemyPassive(new Cool((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Cool"), Enemy.generateVel("Cool")));
 				w1.addEnemyPassive(new Fatso((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
@@ -243,6 +262,7 @@ public class Game extends Canvas implements Runnable{
 				w1.addEnemyPassive(new Thinny((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
 				w1.addEnemyPassive(new Fatso((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
 				w1.addEnemyPassive(new Fatso((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
+				w1.setup();
 				aux.addWave(w1);
 				
 				

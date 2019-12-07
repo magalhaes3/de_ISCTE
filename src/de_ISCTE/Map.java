@@ -113,6 +113,7 @@ public class Map {
 			writer.println("endpoints");
 			for(Wave w : waves) {
 				writer.println(w.getSpawnTime()); 
+				writer.println(w.getWaveID());
 				for(Enemy e : w.getEnemyInfo())
 					writer.println(e.getClass().getSimpleName() + " (" + e.x + ", " + e.y + ") ");
 				writer.println("endwave");
@@ -150,6 +151,10 @@ public class Map {
 			else
 				return waves.get(waves.indexOf(current) + 1);
 		}
+	}
+	
+	public int getNumberOfWaves() {
+		return waves.size();
 	}
 	
 	public Point2D.Float getStartPoint() {

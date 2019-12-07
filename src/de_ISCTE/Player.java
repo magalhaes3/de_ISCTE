@@ -8,11 +8,14 @@ import java.awt.event.MouseListener;
 public class Player implements MouseListener, KeyListener{
 
 	private int hp;
+	private int maxHP;
 	private int points;
+	private boolean insertMode = false;
 	
 	public Player(int hp) {
 		this.hp = hp;
 		this.points = 0;
+		this.maxHP = hp;
 	}
 	
 	
@@ -99,7 +102,16 @@ public class Player implements MouseListener, KeyListener{
 		
 	}
 	
+	public int getPoints() {
+		return points;
+	}
 	
+	public int getHP() {
+		return hp;
+	}
 	
+	public int getMaxHP() {
+		return maxHP;
+	}
 	
 }

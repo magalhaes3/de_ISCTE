@@ -22,7 +22,7 @@ public class MachineContainer extends JPanel{
 		this.setOpaque(false);
 		
 		
-		MachinePanel mp = new MachinePanel(new Machine(-1000,-1000, ID.Turret, 0));
+		MachinePanel mp = new MachinePanel("Machine");
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.insets = new Insets(0,0,20,24);

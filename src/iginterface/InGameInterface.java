@@ -24,6 +24,7 @@ public class InGameInterface extends JPanel {
 	public static final int IWIDTH = GameObject.SIZE * 5;
 	public static final int IHEIGHT = Game.HEIGHT;
 	
+	
 	private BufferedImage img;
 
 	private JLabel mapDisplayed;
@@ -40,15 +41,13 @@ public class InGameInterface extends JPanel {
 		try {
 			img = ImageIO.read(new File("textures/Interface.png"));
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
 		//add Liestener
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				mapDisplayed.setText(Game.getInstance().getCurrentMap().getTitle());
-				pointsDisplayed.setText("Points: oo");
+				
 			}
 		});
 
@@ -58,11 +57,16 @@ public class InGameInterface extends JPanel {
 		setLayout(gb);
 		
 		//criar Jlabels e por fonts
-		mapDisplayed = new JLabel("MAP");
-		waveDisplayed = new JLabel("Wave 1/4");
-		enemiesDisplayed = new JLabel("Enemies 50/60");
-		pointsDisplayed = new JLabel("Points: 221320");
-		hpDisplayed = new JLabel("HP 30/30");
+		mapDisplayed = new JLabel("");
+		waveDisplayed = new JLabel("");
+		enemiesDisplayed = new JLabel("");
+		pointsDisplayed = new JLabel("");
+		hpDisplayed = new JLabel("");
+//		mapDisplayed = new JLabel("MAP");
+//		waveDisplayed = new JLabel("Wave 1/4");
+//		enemiesDisplayed = new JLabel("Enemies 50/60");
+//		pointsDisplayed = new JLabel("Points: 221320");
+//		hpDisplayed = new JLabel("HP 30/30");
 		
 		mapDisplayed.setFont(InfoHelper.getInterfaceFont().deriveFont(40f));
 		waveDisplayed.setFont(InfoHelper.getInterfaceFont().deriveFont(20f));
@@ -131,5 +135,47 @@ public class InGameInterface extends JPanel {
 		//g.fillRect(0, 0, IWIDTH, IHEIGHT);
 		g.drawImage(img, 0, 0, IWIDTH, IHEIGHT, null);
 	}
+
+	public JLabel getMapDisplayed() {
+		return mapDisplayed;
+	}
+
+	public void setMapDisplayedText(String text) {
+		mapDisplayed.setText(text);
+	}
+
+	public JLabel getWaveDisplayed() {
+		return waveDisplayed;
+	}
+
+	public void setWaveDisplayedText(int wave, int nWaves) {
+		waveDisplayed.setText("Wave " + wave + "/" + nWaves);
+	}
+
+	public JLabel getEnemiesDisplayed() {
+		return enemiesDisplayed;
+	}
+
+	public void setEnemiesDisplayedText(int enemiesAlive, int enemiesTotal) {
+		enemiesDisplayed.setText("Enemies " + enemiesAlive + "/" + enemiesTotal);
+	}
+
+	public JLabel getPointsDisplayed() {
+		return pointsDisplayed;
+	}
+
+	public void setPointsDisplayedText(int points) {
+		pointsDisplayed.setText("Points: " + points);
+	}
+
+	public JLabel getHpDisplayed() {
+		return hpDisplayed;
+	}
+
+	public void setHpDisplayedText(int hp, int maxHP) {
+		hpDisplayed.setText("HP: " + hp + "/" + maxHP);
+	}
+	
+	
 
 }

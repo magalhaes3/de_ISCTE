@@ -10,12 +10,21 @@ public class Wave {
 	private float timeSinceLastSpawn, spawnTime;
 	private LinkedList<Enemy> enemyInfo;
 	private LinkedList<Enemy> enemyList;
+	private int id;
+	private int totalEnemies;
+	private int aliveEnemies;
 	
-	public Wave(float spawnTime) {
+	public Wave(float spawnTime, int id) {
 		this.spawnTime = spawnTime;
+		this.id = id;
 		timeSinceLastSpawn = 0;
 		enemyList = new LinkedList<Enemy>();
 		enemyInfo = new LinkedList<Enemy>();
+	}
+	
+	public void setup() {
+		totalEnemies = enemyInfo.size();
+		aliveEnemies = totalEnemies;
 	}
 	
 	public void render(Graphics g) {
@@ -44,6 +53,22 @@ public class Wave {
 			//System.out.println("Spawn!");
 		}
 		
+	}
+	
+	public int getAliveEnemies() {
+		return aliveEnemies;
+	}
+	
+	public void enemyDied() {
+		aliveEnemies--;
+	}
+	
+	public int getTotalEnemies() {
+		return totalEnemies;
+	}
+	
+	public int getWaveID() {
+		return id;
 	}
 	
 	public void setEnemies(LinkedList<Enemy> ee) {

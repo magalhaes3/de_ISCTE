@@ -1,11 +1,9 @@
 package machines;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
@@ -34,6 +32,25 @@ public class Machine extends GameObject {
 		}
     }
 
+    
+    public static int getPrice(String type) {
+    	if(type.equals("Machine"))
+    		return 1000;
+    	return 0;
+    }
+    
+    
+    public static BufferedImage getImage(String type) {
+    	BufferedImage image = null;
+    	try {
+			image = ImageIO.read(new File("textures/" + type + ".png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return image;
+    }
+    
     
     @Override
     public void tick() {
@@ -76,6 +93,7 @@ public class Machine extends GameObject {
     	for(Enemy enemy : enemiesList) {
     		if(enemy.getHP() <= 0) {
     			toRemove.add(enemy);
+    			Game.getInstance().getCurrentWave().enemyDied();
     		}
     	}
     }

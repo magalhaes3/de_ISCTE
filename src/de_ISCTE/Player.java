@@ -1,9 +1,11 @@
 package de_ISCTE;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Player implements MouseListener{
+public class Player implements MouseListener, KeyListener{
 
 	private int hp;
 	private int points;
@@ -37,6 +39,7 @@ public class Player implements MouseListener{
 
 	public void addInput() {
 		Game.getInstance().addMouseListener(this);
+		Game.getInstance().addKeyListener(this);
 
 	}
 	
@@ -70,6 +73,28 @@ public class Player implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_S);
+			System.out.println("OIOI");
+		
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}

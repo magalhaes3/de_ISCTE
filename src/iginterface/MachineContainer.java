@@ -27,7 +27,7 @@ public class MachineContainer extends JPanel{
 		gbc.gridy = 0;
 		gbc.insets = new Insets(0,0,20,24);
 		add(mp, gbc);
-		
+		/*
 		MachinePanel mp1 = new MachinePanel(new Machine(-1000,-1000, ID.Turret, 0));
 		gbc.gridx = 1;
 		gbc.gridy = 0;
@@ -58,8 +58,7 @@ public class MachineContainer extends JPanel{
 		gbc.gridy = 1;
 		gbc.insets = new Insets(0,0,20,0);
 		add(mp5, gbc);
+		*/
 	}
-
-	
 	
 }

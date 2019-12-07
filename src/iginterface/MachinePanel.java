@@ -22,6 +22,7 @@ public class MachinePanel extends JPanel{
 	public MachinePanel(Machine mach) {
 		this.mach = mach;
 		this.machLabel = new MachineLabel(mach.getCost());
+		
 		c = Color.BLACK;
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -70,7 +71,6 @@ public class MachinePanel extends JPanel{
 		super.paintComponent(g);
 		g.setColor(c);
 		g.fillRect(0, 0, 200, 100);
-		setOpaque(false);
 		//g.drawImage(img, 0, 0, IWIDTH, IHEIGHT, null);
 	}
 	

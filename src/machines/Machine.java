@@ -28,7 +28,7 @@ public class Machine extends GameObject {
         super(x, y, id);
         this.range = range;
     	try {
-			image = ImageIO.read(new File("textures/Fatso3.png"));
+			image = ImageIO.read(new File("textures/Machine.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -15,7 +15,6 @@ import enemies.Cool;
 import enemies.Enemy;
 import enemies.Fatso;
 import enemies.Thinny;
-import machines.Machine;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -42,9 +41,6 @@ public class Game extends Canvas implements Runnable{
 		start();
 		
 		init();
-	//INSTANCE s� deixa de ser null quando o construtor termina 
-		Machine teste = new Machine(49*4, 0, ID.Turret, 49*5);
-		this.addObject(teste);
 	}
 	
 	/*

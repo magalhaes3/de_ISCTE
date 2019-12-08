@@ -43,6 +43,7 @@ public class Wave {
 			if(e.getHP() <= 0) {
 				toRemove.add(e);
 				Game.getInstance().removeObject(e);
+				Game.getInstance().getPlayer().beRewarded(e.getReward());
     			enemyDied();
 			}
 		}
@@ -65,6 +66,10 @@ public class Wave {
 	}
 	
 	public void enemyDied() {
+		aliveEnemies--;
+	}
+	
+	public void enemyFinished() {
 		aliveEnemies--;
 	}
 	

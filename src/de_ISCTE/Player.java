@@ -23,7 +23,7 @@ public class Player implements MouseListener, KeyListener{
 	
 	public Player(int hp) {
 		this.hp = hp;
-		this.points = 10000;
+		this.points = 1000;
 		this.maxHP = hp;
 	}
 	
@@ -70,6 +70,14 @@ public class Player implements MouseListener, KeyListener{
 		return insertMode;
 	}
 	
+	public void hurt(int damage) {
+		hp = hp - damage;
+	}
+	
+	public void beRewarded(int value) {
+		points = points + value;
+	}
+	
 	
 	public void addInput() {
 		Game.getInstance().addMouseListener(this);
@@ -83,7 +91,7 @@ public class Player implements MouseListener, KeyListener{
 		if(insertMode && tile instanceof Grass && ((Grass)tile).spot) {
 			if(Machine.getPrice(machine) <= points) {
 				((Grass)tile).setSpot(false);
-				Game.getInstance().addObject(Machine.create(machine, (int)tile.getX(), (int)tile.getY(), 49));
+				Game.getInstance().addObject(Machine.create(machine, (int)tile.getX(), (int)tile.getY(), GameObject.SIZE));
 				points = points - Machine.getPrice(machine);
 			}
 		}

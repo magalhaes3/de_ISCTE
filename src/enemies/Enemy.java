@@ -16,7 +16,9 @@ public abstract class Enemy extends GameObject {
 	protected BufferedImage image;
 	protected float vel;
 	protected float hp;
+	protected int reward;
 	private HealthBar hpbar;
+	
 	
 	public Enemy(float x, int y, float hp, float vel) {
 		super(x, y, ID.Enemy);
@@ -159,6 +161,12 @@ public abstract class Enemy extends GameObject {
 			}
 		}
 		hpbar.tick();
+		if(target == path.getLast() && target.x == this.getX() && target.y == this.getY()) {
+			Game.getInstance().removeObject(this);
+			Game.getInstance().getPlayer().hurt(1);
+			Game.getInstance().getCurrentWave().enemyFinished();
+		}
+			
 	}
 
 	@Override
@@ -166,5 +174,9 @@ public abstract class Enemy extends GameObject {
 		g.drawImage(image, (int)x - SIZE/2, (int)y - SIZE/2, SIZE, SIZE, null);
 		hpbar.render(g);
 	}
+	
+    public int getReward() {
+    	return reward;
+    }
 	
 }

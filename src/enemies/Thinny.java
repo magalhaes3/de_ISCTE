@@ -11,6 +11,7 @@ public class Thinny extends Enemy{
 	
 	public Thinny(int x, int y, float hp, float vel) {
 		super(x, y, hp, vel);
+		super.reward = 55;
 		try {
 			super.image = ImageIO.read(new File("textures/Thinny1.png"));
 		} catch (IOException e) {

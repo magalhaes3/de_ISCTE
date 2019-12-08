@@ -11,6 +11,7 @@ public class Cool extends Enemy{
 
 	public Cool(int x, int y, float hp, float vel) {
 		super(x, y, hp, vel);
+		super.reward = 40;
 		try {
 			super.image = ImageIO.read(new File("textures/Cool1.png"));
 		} catch (IOException e) {

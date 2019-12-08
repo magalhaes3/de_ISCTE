@@ -54,7 +54,7 @@ public class Machine extends GameObject {
     //Meter aqui o resto das máquinas
     public static Machine create(String type, int x, int y, int range) {
     	if(type.equals("Machine"))
-    		return new Machine(x, y, ID.Turret, 490);
+    		return new Machine(x, y, ID.Turret, 98);
     	return null;
     }
     
@@ -130,5 +130,5 @@ public class Machine extends GameObject {
     public BufferedImage getImage() {
     	return image;
     }
-
+   
 }

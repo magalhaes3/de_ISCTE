@@ -11,6 +11,7 @@ public class Fatso extends Enemy{
 
 	public Fatso(int x, int y, float hp, float vel) {
 		super(x, y, hp, vel);
+		super.reward = 50;
 		try {
 			super.image = ImageIO.read(new File("textures/Fatso1.png"));
 		} catch (IOException e) {

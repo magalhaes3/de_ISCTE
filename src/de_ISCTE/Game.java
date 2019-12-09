@@ -11,13 +11,14 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+
 import enemies.Cool;
 import enemies.Enemy;
 import enemies.Fatso;
 import enemies.Thinny;
 import iginterface.InGameInterface;
 import iginterface.InterfaceUpdater;
-import machines.Machine;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -43,25 +44,23 @@ public class Game extends Canvas implements Runnable{
 	private InterfaceUpdater iu;
 	private static final Game GAME = new Game();
 	
+	InGameInterface igi;
 //	Privado porque s� usado internamente para debugging
 	private Game() {
 		
-		InGameInterface igi = new InGameInterface();
+		igi = new InGameInterface();
 		iu = new InterfaceUpdater(igi);
-		new Window(WIDTH, HEIGHT, title, this, igi);
-		start();
-		
-		init();
+//		new Window(WIDTH, HEIGHT, title, this, igi);
+//		start();
+//		
+//		init();
 	}
 	
-	/*
-	public Game(JFrame frame) {
-		new Window(frame, this);
+	public void teste(JFrame frame) {
+		new Window(WIDTH, HEIGHT, title, this, igi, frame);
 		start();
-		
 		init();
 	}
-	*/
 	
 	private synchronized void start() {
 		if(isRunning) 
@@ -149,13 +148,14 @@ public class Game extends Canvas implements Runnable{
 	
 	public void tick() {
 		//update game
-		if(currentWave != null) {
+		if(currentMap != null && currentWave != null) {
 			currentWave.tick();
+			
+			for(GameObject tempObject : gameObjects) {
+				tempObject.tick();			
+			}
+			iu.tick();
 		}
-		for(GameObject tempObject : gameObjects) {
-			tempObject.tick();			
-		}
-		iu.tick();
 	}
 	
 	private void render() {

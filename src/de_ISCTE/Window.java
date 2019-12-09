@@ -38,4 +38,33 @@ public class Window {
 		frame.add(game);
 		frame.setVisible(true);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+public Window(int width, int height, String title, Game game, InGameInterface igi, JFrame frame) {
+		
+		width = width + (int)igi.getPreferredSize().getWidth();
+		frame = new JFrame(title);
+		frame.setPreferredSize(new Dimension(width, height));
+		frame.setMaximumSize(new Dimension(width, height));
+		frame.setMinimumSize(new Dimension(width, height));
+		
+		frame.setLayout(new BorderLayout());
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
+		frame.add(game, BorderLayout.CENTER);
+		frame.add(igi, BorderLayout.EAST);
+		frame.setVisible(true);
+	}
 }

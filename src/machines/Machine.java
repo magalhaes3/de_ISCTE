@@ -25,16 +25,10 @@ public abstract class Machine extends GameObject {
 	private LinkedList<Enemy> enemiesList;
     private LinkedList<Enemy> toRemove;
 
-    private int range;
-    private BufferedImage image;
-    private int cost = 1000;
-
-    private LinkedList<Enemy> enemiesList = new LinkedList<>();
-    private LinkedList<Enemy> toRemove = new LinkedList<Enemy>();
-    
-    public Machine(float x, float y, ID id, int range) {
+    public Machine(float x, float y, ID id) {
         super(x, y, id);
-        this.range = range;
+        enemiesList = getEnemiesInRange();
+		toRemove = new LinkedList<>();
     	try {
 			image = ImageIO.read(new File("textures/Machine.png"));
 		} catch (IOException e) {
@@ -62,17 +56,11 @@ public abstract class Machine extends GameObject {
     }
     
     //Meter aqui o resto das m�quinas
-    public static Machine create(String type, int x, int y, int range) {
-    	if(type.equals("Machine"))
-    		return new Machine(x, y, ID.Turret, 98);
-    	return null;
-    }
-    
-    public Machine(float x, float y, ID id) {
-		super(x, y, id);
-		enemiesList = getEnemiesInRange();
-		toRemove = new LinkedList<>();
-	}
+//    public static Machine create(String type, int x, int y, int range) {
+//    	if(type.equals("Machine"))
+//    		return new Machine(x, y, ID.Turret, 98);
+//    	return null;
+//    }
     
     public int getDamage() {
     	return damage;
@@ -163,10 +151,6 @@ public abstract class Machine extends GameObject {
 		} else {
 			return false;
 		}
-    }
-
-    public int getCost() {
-    	return cost;
     }
     
     public BufferedImage getImage() {

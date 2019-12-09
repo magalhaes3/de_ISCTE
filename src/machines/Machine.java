@@ -11,75 +11,114 @@ import de_ISCTE.ID;
 
 public abstract class Machine extends GameObject {
 	private BufferedImage image;
+	
+	private int range;
+	private int damage;
+	private int firerate;
+	
+	private int price;
+	
+	private LinkedList<Enemy> enemiesList;
+    private LinkedList<Enemy> toRemove;
 
     public Machine(float x, float y, ID id) {
-        super(x, y, id);
+		super(x, y, id);
+		enemiesList = getEnemiesInRange();
+		toRemove = new LinkedList<>();
+	}
+    
+    public int getDamage() {
+    	return damage;
+    }
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	
+    public int getPrice() {
+    	return price;
     }
     
-    public abstract int getDamage();
+    public void setPrice(int price) {
+    	this.price = price;
+    }
+    
+    public int getRange() {
+    	return range;
+    }
+    
+    public void setRange(int range) {
+    	this.range = range * GameObject.SIZE;
+    }
+    
+    public int getFirerate() {
+    	return firerate;
+    }
+    
+    public void setFirerate(int firerate) {
+    	this.firerate = firerate;
+    }
+    
+    int counter = 0;
+    
+    @Override
+	public void tick() {
+    	updateEnemiesList();
+        if(counter == firerate) {
+        	if(!enemiesList.isEmpty()) {
+        		Enemy toShoot = getEnemyCloserToTarget();
+        		toShoot.setHP(toShoot.getHP() - this.damage);
+        	}
+        	counter = 0;
+        } else {
+        	counter++;
+        }
+        enemiesList.removeAll(toRemove);
+	}
 
-	public abstract void setDamage(int damage);
-	
-    public abstract int getPrice();
+	private LinkedList<Enemy> getEnemiesInRange() {
+    	LinkedList<Enemy> toReturn = new LinkedList<>();
+    	for(GameObject temp : Game.getInstance().getGameObjects()) {
+    		if(enemyInRange(temp)) {
+    			toReturn.add((Enemy) temp);
+    		}
+    	}
+    	return toReturn;
+    }
     
-    public abstract int getRange();
+    private void updateEnemiesList() {
+    	for(GameObject temp : Game.getInstance().getGameObjects()) {
+    		if(enemyInRange(temp)) {
+    			if(!enemiesList.contains(temp)) {
+    				enemiesList.add((Enemy) temp);
+    			}
+    		} else {
+//    			Se o inimigo estiver já fora de range mas já esteve em range tem de entrar aqui 
+//    			para sair da lista
+    			if(enemiesList.contains(temp)) {
+    				toRemove.add((Enemy) temp);
+    			}
+    		}
+    	}
+    	for(Enemy enemy : enemiesList) {
+    		if(enemy.getHP() <= 0) {
+    			toRemove.add(enemy);
+    		}
+    	}
+    }
     
-    public abstract void setRange(int range);
-    
-    public abstract int getFirerate();
-    
-    public abstract void setFirerate(int firerate);
-   
-//    protected static LinkedList<Enemy> getEnemiesInRange(Machine machine) {
-//    	LinkedList<Enemy> toReturn = new LinkedList<>();
-//    	for(GameObject temp : Game.getInstance().getGameObjects()) {
-//    		if(enemyInRange(temp, machine)) {
-//    			toReturn.add((Enemy) temp);
-//    		}
-//    	}
-//    	return toReturn;
-//    }
-//    
-//    
-//    protected static void updateEnemiesList(LinkedList<Enemy> enemiesList, LinkedList<Enemy> toRemove, Machine machine) {
-//    	for(GameObject temp : Game.getInstance().getGameObjects()) {
-//    		if(enemyInRange(temp, machine)) {
-//    			if(!enemiesList.contains(temp)) {
-//    				enemiesList.add((Enemy) temp);
-//    			}
-//    		} else {
-////    			Se o inimigo estiver já fora de range mas já esteve em range tem de entrar aqui 
-////    			para sair da lista
-//    			if(enemiesList.contains(temp)) {
-//    				toRemove.add((Enemy) temp);
-//    			}
-//    		}
-//    	}
-//    	for(Enemy enemy : enemiesList) {
-//    		if(enemy.getHP() <= 0) {
-//    			toRemove.add(enemy);
-//    		}
-//    	}
-//    }
-//    
-//    private static boolean enemyInRange(GameObject obj, Machine machine) {
-//    	float x = machine.getX();
-//    	float y = machine.getY();
-//    	int range = machine.getRange();
-//    	
-//    	System.out.println(obj + "	" + machine);
-//    	
-//    	if(obj.getId() != ID.Enemy || obj.getX() < 0 || obj.getY() < 0 || obj.getX() >= Game.WIDTH || obj.getY() >= Game.HEIGHT) {
-//    		return false;
-//    	}
-//    	if(obj.getX() > x - range && obj.getX() < x + range && obj.getY() > y - range && obj.getY() < y + range) {
-//    		return true;
-//		} else {
-//			return false;
-//		}
-//    }
+    private boolean enemyInRange(GameObject obj) {
+    	if(obj.getId() != ID.Enemy || obj.getX() < 0 || obj.getY() < 0 || obj.getX() >= Game.WIDTH || obj.getY() >= Game.HEIGHT) {
+    		return false;
+    	}
+    	if(obj.getX() > x - range && obj.getX() < x + range && obj.getY() > y - range && obj.getY() < y + range) {
+    		return true;
+		} else {
+			return false;
+		}
+    }
 
-    protected static Enemy getEnemyCloserToTarget(LinkedList<Enemy> enemiesList) {
+    private Enemy getEnemyCloserToTarget() {
     	Enemy toReturn = enemiesList.getFirst();
     	for(Enemy ex : enemiesList) {
     		if(ex.getRemainingDistance() < toReturn.getRemainingDistance()) {

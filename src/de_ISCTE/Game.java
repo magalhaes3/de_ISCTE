@@ -18,6 +18,9 @@ import enemies.Thinny;
 import iginterface.InGameInterface;
 import iginterface.InterfaceUpdater;
 import machines.Machine;
+import machines.FastTurret;
+import machines.Machine;
+import machines.Tank;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -52,6 +55,7 @@ public class Game extends Canvas implements Runnable{
 		start();
 		
 		init();
+		//INSTANCE sï¿½ deixa de ser null quando o construtor termina 
 	}
 	
 	/*
@@ -261,7 +265,7 @@ public class Game extends Canvas implements Runnable{
 					aux.addWave(w);
 				}
 				
-				//Descomentar código para testar waves
+				//Descomentar cï¿½digo para testar waves
 				
 				Wave w1 = new Wave(1000, 1);
 				w1.addEnemyPassive(new Thinny((int)aux.getStartPoint().x,(int)aux.getStartPoint().y, Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
@@ -288,7 +292,7 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	
-	//adicionar grid à lista GameObjects para ser updated
+	//adicionar grid ï¿½ lista GameObjects para ser updated
 	private void addMapToGame() {
 		for(int i = 0; i < currentMap.getGrid().length; i++)
 			for(int j = 0; j < currentMap.getGrid()[i].length; j++) 
@@ -318,6 +322,10 @@ public class Game extends Canvas implements Runnable{
 	
 	public static void main(String[] args) {
 		//new Game();
+		Machine teste = new FastTurret(200, 10);
+		Machine teste2 = new Tank(250, 10);
+		Game.getInstance().addObject(teste);
+		Game.getInstance().addObject(teste2);
 	}
 	
 	

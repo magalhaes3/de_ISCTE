@@ -13,7 +13,17 @@ import de_ISCTE.GameObject;
 import de_ISCTE.ID;
 import enemies.Enemy;
 
-public class Machine extends GameObject {
+public abstract class Machine extends GameObject {
+	private BufferedImage image;
+	
+	private int range;
+	private int damage;
+	private int firerate;
+	
+	private int price;
+	
+	private LinkedList<Enemy> enemiesList;
+    private LinkedList<Enemy> toRemove;
 
     private int range;
     private BufferedImage image;
@@ -51,25 +61,69 @@ public class Machine extends GameObject {
     	return image;
     }
     
-    //Meter aqui o resto das máquinas
+    //Meter aqui o resto das mï¿½quinas
     public static Machine create(String type, int x, int y, int range) {
     	if(type.equals("Machine"))
     		return new Machine(x, y, ID.Turret, 98);
     	return null;
     }
     
+    public Machine(float x, float y, ID id) {
+		super(x, y, id);
+		enemiesList = getEnemiesInRange();
+		toRemove = new LinkedList<>();
+	}
+    
+    public int getDamage() {
+    	return damage;
+    }
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	
+    public int getPrice() {
+    	return price;
+    }
+    
+    public void setPrice(int price) {
+    	this.price = price;
+    }
+    
+    public int getRange() {
+    	return range;
+    }
+    
+    public void setRange(int range) {
+    	this.range = range * GameObject.SIZE;
+    }
+    
+    public int getFirerate() {
+    	return firerate;
+    }
+    
+    public void setFirerate(int firerate) {
+    	this.firerate = firerate;
+    }
+    
+    int counter = 0;
     
     @Override
-    public void tick() {
-        updateEnemiesList();
-        if(!enemiesList.isEmpty()) {
-        	Enemy toShoot = enemiesList.getFirst();
-        	toShoot.setHP(toShoot.getHP() - 1);
+	public void tick() {
+    	updateEnemiesList();
+        if(counter == firerate) {
+        	if(!enemiesList.isEmpty()) {
+        		Enemy toShoot = getEnemyCloserToTarget();
+        		toShoot.setHP(toShoot.getHP() - this.damage);
+        	}
+        	counter = 0;
+        } else {
+        	counter++;
         }
         enemiesList.removeAll(toRemove);
-    }
-   
-    private LinkedList<Enemy> getEnemiesInRange() {
+	}
+
+	private LinkedList<Enemy> getEnemiesInRange() {
     	LinkedList<Enemy> toReturn = new LinkedList<>();
     	for(GameObject temp : Game.getInstance().getGameObjects()) {
     		if(enemyInRange(temp)) {
@@ -79,19 +133,15 @@ public class Machine extends GameObject {
     	return toReturn;
     }
     
-    boolean firstTimeLoading = true;
-    
     private void updateEnemiesList() {
-    	if(firstTimeLoading) {
-    		enemiesList = getEnemiesInRange();
-    		firstTimeLoading = false;
-    	}
     	for(GameObject temp : Game.getInstance().getGameObjects()) {
     		if(enemyInRange(temp)) {
     			if(!enemiesList.contains(temp)) {
     				enemiesList.add((Enemy) temp);
     			}
     		} else {
+//    			Se o inimigo estiver jï¿½ fora de range mas jï¿½ esteve em range tem de entrar aqui 
+//    			para sair da lista
     			if(enemiesList.contains(temp)) {
     				toRemove.add((Enemy) temp);
     			}
@@ -105,24 +155,16 @@ public class Machine extends GameObject {
     }
     
     private boolean enemyInRange(GameObject obj) {
-    	if(obj == this || obj.getId() != ID.Enemy) {
+    	if(obj.getId() != ID.Enemy || obj.getX() < 0 || obj.getY() < 0 || obj.getX() >= Game.WIDTH || obj.getY() >= Game.HEIGHT) {
     		return false;
     	}
-    	if(obj.getX() > this.getX() - this.range && obj.getX() < this.getX() + this.range && obj.getY() > this.getY() - this.range && obj.getY() < this.getY() + this.range) {
-			return true;
+    	if(obj.getX() > x - range && obj.getX() < x + range && obj.getY() > y - range && obj.getY() < y + range) {
+    		return true;
 		} else {
 			return false;
 		}
     }
 
-    @Override
-    public void render(Graphics g) {
-    	//g.setColor(Color.white);
-        //g.fillOval((int) this.getX(), (int) this.getY(), 30, 30);
-    	g.drawImage(image, (int)x, (int)y, SIZE, SIZE, null);
-    }
-    
-    
     public int getCost() {
     	return cost;
     }
@@ -131,4 +173,16 @@ public class Machine extends GameObject {
     	return image;
     }
    
+    private Enemy getEnemyCloserToTarget() {
+    	Enemy toReturn = enemiesList.getFirst();
+    	for(Enemy ex : enemiesList) {
+    		if(ex.getRemainingDistance() < toReturn.getRemainingDistance()) {
+    			toReturn = ex;
+    		}
+    	}
+    	return toReturn;
+    }
+    
+    @Override
+    public abstract void render(Graphics g);
 }

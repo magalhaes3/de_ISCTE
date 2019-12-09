@@ -116,6 +116,9 @@ public abstract class Enemy extends GameObject {
 		vel = value;
 	}
 	
+	public int getRemainingDistance() {
+		return path.size() - path.indexOf(target);
+	}
 	
 	//Mudar movimento
 	@Override

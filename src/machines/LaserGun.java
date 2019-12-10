@@ -3,6 +3,7 @@ package machines;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import de_ISCTE.GameObject;
 import de_ISCTE.ID;
 
 public class LaserGun extends Machine {
@@ -11,7 +12,7 @@ public class LaserGun extends Machine {
 	private static final int DAMAGE = 8;
 	private static final int FIRERATE = 5;
 	
-	private static final int PRICE = 1000;
+	public static final int PRICE = 1000;
 	
 	public LaserGun(float x, float y) {
 		super(x, y, ID.Turret);
@@ -23,8 +24,7 @@ public class LaserGun extends Machine {
 
 	@Override
 	public void render(Graphics g) {
-		g.setColor(Color.red);
-		g.drawRect((int)this.getX(), (int)this.getY(), 50, 50);
+		g.drawImage(getImage(getClass().getSimpleName()), (int) x, (int) y, GameObject.SIZE, GameObject.SIZE, null);
 	}
 
 }

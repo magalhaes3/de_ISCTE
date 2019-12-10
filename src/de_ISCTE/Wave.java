@@ -17,6 +17,7 @@ public class Wave {
 	private int id;
 	private int totalEnemies;
 	private int aliveEnemies;
+	private boolean finished = false;
 	
 	public Wave(float spawnTime, int id) {
 		this.spawnTime = spawnTime;
@@ -50,6 +51,8 @@ public class Wave {
     			enemyDied();
 			}
 		}
+		if(aliveEnemies == 0)
+			setFinished();
 		enemyList.removeAll(toRemove);
 		toRemove.clear();
 	}
@@ -62,6 +65,14 @@ public class Wave {
 			//System.out.println("Spawn!");
 		}
 		
+	}
+	
+	public void setFinished() {
+		finished = true;
+	}
+	
+	public boolean isFinished() {
+		return finished;
 	}
 	
 	public int getAliveEnemies() {

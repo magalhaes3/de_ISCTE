@@ -29,21 +29,21 @@ public abstract class Machine extends GameObject {
         super(x, y, id);
         enemiesList = getEnemiesInRange();
 		toRemove = new LinkedList<>();
-    	try {
-			image = ImageIO.read(new File("textures/Machine.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
     }
 
     //mesma coisa aqui
     public static int getPrice(String type) {
-    	if(type.equals("Machine"))
-    		return 1000;
+    	if(type.equals("Canon"))
+    		return Canon.PRICE;
+    	if(type.equals("FastTurret"))
+    		return FastTurret.PRICE;
+    	if(type.equals("LaserGun"))
+    		return LaserGun.PRICE;
+    	if(type.equals("Tank"))
+    		return Tank.PRICE;
     	return 0;
     }
-    
-    
+    	
     public static BufferedImage getImage(String type) {
     	BufferedImage image = null;
     	try {
@@ -55,12 +55,17 @@ public abstract class Machine extends GameObject {
     	return image;
     }
     
-    //Meter aqui o resto das m�quinas
-//    public static Machine create(String type, int x, int y, int range) {
-//    	if(type.equals("Machine"))
-//    		return new Machine(x, y, ID.Turret, 98);
-//    	return null;
-//    }
+    public static Machine create(String type, int x, int y, int range) {
+    	if(type.equals("Canon"))
+    		return new Canon(x, y);
+    	if(type.equals("FastTurret"))
+    		return new FastTurret(x, y);
+    	if(type.equals("LaserGun"))
+    		return new LaserGun(x, y);
+    	if(type.equals("Tank"))
+    		return new Tank(x, y);
+    	return null;
+    }
     
     public int getDamage() {
     	return damage;
@@ -92,6 +97,18 @@ public abstract class Machine extends GameObject {
     
     public void setFirerate(int firerate) {
     	this.firerate = firerate;
+    }
+    
+    public void setImage(String classe) {
+    	try {
+			image = ImageIO.read(new File("textures/" + classe + ".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public BufferedImage getImage() {
+    	return image;
     }
     
     int counter = 0;
@@ -151,10 +168,6 @@ public abstract class Machine extends GameObject {
 		} else {
 			return false;
 		}
-    }
-    
-    public BufferedImage getImage() {
-    	return image;
     }
    
     private Enemy getEnemyCloserToTarget() {

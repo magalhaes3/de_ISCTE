@@ -55,7 +55,6 @@ public class Player implements MouseListener, KeyListener{
 	}
 	
 	public void render(Graphics g) {
-		System.out.println("Está");
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(new File("textures/" + machine + ".png"));

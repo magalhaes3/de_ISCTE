@@ -2,6 +2,8 @@ package machines;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import de_ISCTE.GameObject;
 import de_ISCTE.ID;
 
 public class Canon extends Machine {
@@ -10,7 +12,7 @@ public class Canon extends Machine {
 	private static final int DAMAGE = 7;
 	private static final int FIRERATE = 40;
 	
-	private static final int PRICE = 50;
+	public static final int PRICE = 50;
 	
 	public Canon(float x, float y) {
 		super(x, y, ID.Turret);
@@ -22,8 +24,7 @@ public class Canon extends Machine {
 
 	@Override
 	public void render(Graphics g) {
-		g.setColor(Color.BLUE);
-		g.drawRect((int)this.getX(), (int)this.getY(), 50, 50);
+		g.drawImage(getImage(getClass().getSimpleName()), (int) x, (int) y, GameObject.SIZE, GameObject.SIZE, null);
 	}
 
 }

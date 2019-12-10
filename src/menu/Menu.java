@@ -69,7 +69,7 @@ public class Menu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Game g = Game.getInstance();
-				g.teste(frame);
+				g.setFrame(frame);
 			}
 		});
         startPanel.add(startButton);

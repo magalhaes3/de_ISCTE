@@ -56,7 +56,7 @@ public class Game extends Canvas implements Runnable{
 //		init();
 	}
 	
-	public void teste(JFrame frame) {
+	public void setFrame(JFrame frame) {
 		new Window(WIDTH, HEIGHT, title, this, igi, frame);
 		start();
 		init();

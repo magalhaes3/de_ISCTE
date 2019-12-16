@@ -61,7 +61,7 @@ public class Map {
 			seg_first = seg_last;
 			seg_last = points.get(points.indexOf(seg_last) + 1);			
 		}
-		setClimate();
+
 	}
 	
 	private void setClimate() {
@@ -154,15 +154,20 @@ public class Map {
 	}
 	
 	public Wave getNextWave(Wave current) {
-		if(current == null)
+		if(current == null) {
+			setClimate();
 			return waves.get(0);
+		}
 		else {
 			int index = waves.indexOf(current);
 			if(index == waves.size() - 1)
 				return null; //terminar mapa
-			else
+			else {
+				setClimate();
 				return waves.get(waves.indexOf(current) + 1);
+			}
 		}
+		
 	}
 	
 	public int getNumberOfWaves() {

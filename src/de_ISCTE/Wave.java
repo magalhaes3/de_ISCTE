@@ -43,7 +43,7 @@ public class Wave {
 		while(true) {
 			double d = r.nextDouble();
 			result = (int)(Math.log(d)/Math.log(0.95));
-			if(result > 0 && result <= totalEnemies)
+			if(result > 0 && result < totalEnemies)
 				break;
 		}
 		return result;

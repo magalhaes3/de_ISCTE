@@ -72,7 +72,7 @@ public class Game extends Canvas implements Runnable {
 		if (isRunning)
 			return;
 
-		this.currentLevel = 1;
+		this.currentLevel = 3;
 		thread = new Thread(this);
 		thread.start();
 		isRunning = true;

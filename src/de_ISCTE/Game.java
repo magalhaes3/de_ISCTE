@@ -255,7 +255,7 @@ public class Game extends Canvas implements Runnable {
 					float spawnTime = Float.parseFloat(line);
 					line = sc.nextLine();
 					int id = Integer.parseInt(line);
-					Wave w = new Wave(spawnTime, id);
+					Wave w = new Wave(spawnTime, id, aux);
 					while (sc.hasNextLine() && line != "endwave") {
 						line = sc.nextLine();
 						String[] args = line.split(" ");
@@ -271,7 +271,7 @@ public class Game extends Canvas implements Runnable {
 
 				// Descomentar c�digo para testar waves
 
-				Wave w1 = new Wave(1000, 1);
+				Wave w1 = new Wave(1000, 1, aux);
 				w1.addEnemyPassive(new Thinny((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
 						Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
 				w1.addEnemyPassive(new Cool((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
@@ -289,7 +289,7 @@ public class Game extends Canvas implements Runnable {
 				w1.setup();
 				aux.addWave(w1);
 
-				Wave w2 = new Wave(1000, 2);
+				Wave w2 = new Wave(1000, 2, aux);
 				w2.addEnemyPassive(new Thinny((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
 						Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
 				w2.addEnemyPassive(new Cool((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,

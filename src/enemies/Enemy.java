@@ -63,7 +63,7 @@ public abstract class Enemy extends GameObject {
 			double u2 = Math.random()*((1 - (-1) )) + (-1);
 			u = u1*u1 + u2*u2;
 			result = mean + stdDev*u1*Math.sqrt(-2 * Math.log(u)/u);
-			if(u < 1) 
+			if(u < 1 && result > 50) 
 				break;
 		}
 		return (float) result;	
@@ -84,7 +84,7 @@ public abstract class Enemy extends GameObject {
 			}
 			if(type.equals("Fatso")) {
 				mean = 1;
-				stdDev = 0.7f;
+				stdDev = 0.2f;
 			}
 			
 			double u = 0;
@@ -94,7 +94,7 @@ public abstract class Enemy extends GameObject {
 				double u2 = Math.random()*((1 - (-1) )) + (-1);
 				u = u1*u1 + u2*u2;
 				result = mean + stdDev*u1*Math.sqrt(-2 * Math.log(u)/u);
-				if(u < 1) 
+				if(u < 1 && result >= 0.2f)  // garantir que não tem velocidade negativa ou que é excessivamente lento
 					break;
 			}
 			return (float) result;	
@@ -118,6 +118,11 @@ public abstract class Enemy extends GameObject {
 	
 	public int getRemainingDistance() {
 		return path.size() - path.indexOf(target);
+	}
+	
+	public void setMaxHP(int hp) {
+		hpbar.setMaxHP(hp);
+		this.hp = hp;
 	}
 	
 	//Mudar movimento
@@ -167,7 +172,7 @@ public abstract class Enemy extends GameObject {
 		if(target == path.getLast() && target.x == this.getX() && target.y == this.getY()) {
 			Game.getInstance().removeObject(this);
 			Game.getInstance().getPlayer().hurt(1);
-			Game.getInstance().getCurrentWave().enemyFinished();
+			Game.getInstance().getCurrentWave().enemyDied();
 		}
 			
 	}

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
+import java.util.Random;
 
 import enemies.Enemy;
 
@@ -17,6 +18,7 @@ public class Map {
 	protected static int H_SLOTS = 14;
 	protected static int V_SLOTS = 20;
 	
+	private Climate climate;
 	private String title;
 	private Ground[][] map;
 	private LinkedList<Wave> waves = new LinkedList<Wave>();
@@ -59,6 +61,12 @@ public class Map {
 			seg_first = seg_last;
 			seg_last = points.get(points.indexOf(seg_last) + 1);			
 		}
+		setClimate();
+	}
+	
+	private void setClimate() {
+		Random r = new Random();
+		climate = Climate.getClimate(r.nextDouble());
 	}
 	
 	private void generateFullGrass() {
@@ -69,6 +77,10 @@ public class Map {
 	
 	public String getTitle() {
 		return title;
+	}
+	
+	public Climate getClimate() {
+		return climate;
 	}
 	
 	public void setTitle(String title) {

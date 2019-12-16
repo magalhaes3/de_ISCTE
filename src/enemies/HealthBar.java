@@ -20,7 +20,10 @@ public class HealthBar extends GameObject{
 		maxHP = enemy.getHP();
 	}
 
-
+	public void setMaxHP(int hp) {
+		maxHP = hp;
+	}
+		
 	@Override
 	public void tick() {
 		float enemyHP = enemy.getHP();

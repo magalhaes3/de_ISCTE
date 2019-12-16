@@ -2,11 +2,9 @@ package de_ISCTE;
 
 import java.awt.Graphics;
 import java.util.LinkedList;
+import java.util.Random;
 
 import enemies.Enemy;
-import machines.FastTurret;
-import machines.Machine;
-import machines.Tank;
 
 public class Wave {
 
@@ -17,9 +15,13 @@ public class Wave {
 	private int id;
 	private int totalEnemies;
 	private int aliveEnemies;
+	private Map map;
+	private int waveReward;
+	private int enemiesUntilReward;
 	private boolean finished = false;
 	
-	public Wave(float spawnTime, int id) {
+	public Wave(float spawnTime, int id, Map map) {
+		this.map = map;
 		this.spawnTime = spawnTime;
 		this.id = id;
 		timeSinceLastSpawn = 0;
@@ -29,7 +31,22 @@ public class Wave {
 	
 	public void setup() {
 		totalEnemies = enemyInfo.size();
+		waveReward = totalEnemies * 50;
+		enemiesUntilReward = generateEnemiesUntilReward();
+		System.out.println(enemiesUntilReward);
 		aliveEnemies = totalEnemies;
+	}
+	
+	private int generateEnemiesUntilReward() {
+		Random r = new Random();
+		int result = -1;
+		while(true) {
+			double d = r.nextDouble();
+			result = (int)(Math.log(d)/Math.log(0.95));
+			if(result > 0 && result <= totalEnemies)
+				break;
+		}
+		return result;
 	}
 	
 	public void render(Graphics g) {
@@ -60,11 +77,12 @@ public class Wave {
 	private void spawn() {
 		if(!enemyInfo.isEmpty()) {
 			Enemy e = enemyInfo.pop();
+			System.out.println("Spawned enemy, climate is " + map.getClimate().toString());
+			e.setMaxHP((int)(e.getHP() * map.getClimate().getHPMultiplier()));
+			e.setVel(e.getVel() * map.getClimate().getSpeedMultiplier());
 			enemyList.add(e);
 			Game.getInstance().addObject(e);
-			//System.out.println("Spawn!");
-		}
-		
+		}	
 	}
 	
 	public void setFinished() {
@@ -81,10 +99,9 @@ public class Wave {
 	
 	public void enemyDied() {
 		aliveEnemies--;
-	}
-	
-	public void enemyFinished() {
-		aliveEnemies--;
+		enemiesUntilReward--;
+		if(enemiesUntilReward == 0)
+			Game.getInstance().getPlayer().beRewarded(waveReward);
 	}
 	
 	public int getTotalEnemies() {
@@ -93,6 +110,10 @@ public class Wave {
 	
 	public int getWaveID() {
 		return id;
+	}
+	
+	public Map getMap() {
+		return map;
 	}
 	
 	public void setEnemies(LinkedList<Enemy> ee) {

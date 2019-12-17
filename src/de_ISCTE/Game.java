@@ -15,10 +15,13 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+import javax.swing.JFrame;
+
 import enemies.Enemy;
 import iginterface.InGameInterface;
 import iginterface.InterfaceUpdater;
 
+@SuppressWarnings("serial")
 public class Game extends Canvas implements Runnable {
 
 	public static int WIDTH = GameObject.SIZE * Map.V_SLOTS + 6; // 986, slots*n colunas + parte da janela
@@ -49,24 +52,23 @@ public class Game extends Canvas implements Runnable {
 	private InterfaceUpdater iu;
 	private static final Game GAME = new Game();
 
-	// Privado porque s� usado internamente para debugging
+	InGameInterface igi;
+//	Privado porque s� usado internamente para debugging
 	private Game() {
-
-		InGameInterface igi = new InGameInterface();
+		igi = new InGameInterface();
 		iu = new InterfaceUpdater(igi);
-		new Window(WIDTH, HEIGHT, title, this, igi);
-		start();
-
-		init();
-		// INSTANCE s� deixa de ser null quando o construtor termina
+//		new Window(WIDTH, HEIGHT, title, this, igi);
+//		start();
+//		
+//		init();
 	}
 
-	/*
-	 * public Game(JFrame frame) { new Window(frame, this); start();
-	 * 
-	 * init(); }
-	 */
-
+	public void setFrame(JFrame frame) {
+		new Window(WIDTH, HEIGHT, title, this, igi, frame);
+		start();
+		init();
+	}
+	
 	private synchronized void start() {
 		if (isRunning)
 			return;
@@ -78,8 +80,6 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void init() {
-		// TODO inserir aqui um m�todo para escolher o path do mapa
-
 		loadMap(chooseMap());
 //		loadMap("maps/level1/Avante.txt");
 		nextWave();
@@ -170,7 +170,6 @@ public class Game extends Canvas implements Runnable {
 		try {
 			img = ImageIO.read(new File("textures/loading.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		g.drawImage(img, 0, 0, WIDTH, HEIGHT, null);

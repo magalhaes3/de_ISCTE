@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import enemies.Enemy;
 import iginterface.InGameInterface;
 import iginterface.InterfaceUpdater;
+import menu.Menu;
 
 @SuppressWarnings("serial")
 public class Game extends Canvas implements Runnable {
@@ -53,18 +54,19 @@ public class Game extends Canvas implements Runnable {
 	private static final Game GAME = new Game();
 
 	InGameInterface igi;
-//	Privado porque s� usado internamente para debugging
+	Window gameWindow;
+//	Privado porque so e usado internamente para debugging
 	private Game() {
 		igi = new InGameInterface();
 		iu = new InterfaceUpdater(igi);
 //		new Window(WIDTH, HEIGHT, title, this, igi);
 //		start();
-//		
+		
 //		init();
 	}
 
 	public void setFrame(JFrame frame) {
-		new Window(WIDTH, HEIGHT, title, this, igi, frame);
+		gameWindow = new Window(WIDTH, HEIGHT, title, this, igi, frame);
 		start();
 		init();
 	}
@@ -394,6 +396,8 @@ public class Game extends Canvas implements Runnable {
 	public void endMap() {
 		mapFinished = true;
 		System.out.println("Acabou mapa");
+		JFrame aux = gameWindow.getFrame();
+		new Menu(aux);
 	}
 
 	public static Game getInstance() {

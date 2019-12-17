@@ -5,22 +5,19 @@ import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
-import enemies.Cool;
+import javax.imageio.ImageIO;
+
 import enemies.Enemy;
-import enemies.Fatso;
-import enemies.Thinny;
 import iginterface.InGameInterface;
 import iginterface.InterfaceUpdater;
-import machines.Machine;
-import machines.FastTurret;
-import machines.Machine;
-import machines.Tank;
 
 public class Game extends Canvas implements Runnable {
 
@@ -43,8 +40,10 @@ public class Game extends Canvas implements Runnable {
 	private int currentLevel;
 
 	private float timer;
+
 	private boolean startTimer;
-	
+	private boolean loading = true;
+	private boolean gameover = false;
 	private boolean mapFinished = false;
 
 	private InterfaceUpdater iu;
@@ -72,7 +71,7 @@ public class Game extends Canvas implements Runnable {
 		if (isRunning)
 			return;
 
-		this.currentLevel = 3;
+		this.currentLevel = 1;
 		thread = new Thread(this);
 		thread.start();
 		isRunning = true;
@@ -80,9 +79,9 @@ public class Game extends Canvas implements Runnable {
 
 	private void init() {
 		// TODO inserir aqui um m�todo para escolher o path do mapa
-		// loadMap("./maps/level3/IGOT.txt");
 
 		loadMap(chooseMap());
+//		loadMap("maps/level1/Avante.txt");
 		nextWave();
 	}
 
@@ -129,43 +128,75 @@ public class Game extends Canvas implements Runnable {
 		int updates = 0;
 		int frames = 0;
 		while (isRunning) {
-			long now = System.nanoTime();
-			delta += (now - lastTime) / ns;
-			lastTime = now;
-			while (delta >= 1) {
-				tick();
-				updates++;
-				delta--;
-			}
-			Clock.update();
-			render();
-			frames++;
+			if (!loading) {
+				long now = System.nanoTime();
+				delta += (now - lastTime) / ns;
+				lastTime = now;
+				while (delta >= 1) {
+					tick();
+					updates++;
+					delta--;
+				}
+				Clock.update();
+				render();
+				frames++;
 
-			if (System.currentTimeMillis() - timer > 1000) {
-				timer += 1000;
-				// sSystem.out.println("FPS: " + frames + " TICKS: " + updates);
-				// System.out.println(player.getTile());
-				frames = 0;
-				updates = 0;
+				if (System.currentTimeMillis() - timer > 1000) {
+					timer += 1000;
+					// sSystem.out.println("FPS: " + frames + " TICKS: " + updates);
+					// System.out.println(player.getTile());
+					frames = 0;
+					updates = 0;
+				}
+			}
+			else {
+				renderLoading();
+//				System.out.println("");
 			}
 		}
 		stop();
 	}
+	
+	private void renderLoading() {
+		BufferStrategy bs = this.getBufferStrategy();
+		if (bs == null) {
+			this.createBufferStrategy(3);
+			return;
+		}
+
+		Graphics g = bs.getDrawGraphics();
+		
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File("textures/loading.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		g.drawImage(img, 0, 0, WIDTH, HEIGHT, null);
+		bs.show();
+		g.dispose();
+	}
 
 	public void tick() {
 		// update game
-		if(!mapFinished) {
-			if (currentWave != null) {
-				currentWave.tick();
-				if (currentWave.isFinished())
-					nextWave();
-	
+		if (!gameover) {
+			
+			if (!mapFinished) {
+				if (currentWave != null) {
+					currentWave.tick();
+					if (currentWave.isFinished())
+						nextWave();
+
+				}
 			}
+			for (GameObject tempObject : gameObjects) {
+				tempObject.tick();
+			}
+			iu.tick();
+			if (player.getHP() == 0)
+				gameover = true;
 		}
-		for (GameObject tempObject : gameObjects) {
-			tempObject.tick();
-		}
-		iu.tick();
 	}
 
 	private void render() {
@@ -240,7 +271,7 @@ public class Game extends Canvas implements Runnable {
 				line = sc.nextLine();
 				Map aux = new Map(title);
 
-				while (sc.hasNextLine() && line != "endpoints") {
+				while (sc.hasNextLine() && !line.equals("endpoints")) {
 					line = line.substring(1, line.length() - 1);
 					String[] args = line.split(",");
 					Float x = Float.parseFloat(args[0]);
@@ -249,68 +280,72 @@ public class Game extends Canvas implements Runnable {
 					line = sc.nextLine();
 				}
 				// ler waves
-
-				while (sc.hasNextLine() && line != "endwaves") {
-					line = sc.nextLine();
+				line = sc.nextLine();
+				while (sc.hasNextLine() && !line.equals("endwaves")) {
 					float spawnTime = Float.parseFloat(line);
 					line = sc.nextLine();
 					int id = Integer.parseInt(line);
 					Wave w = new Wave(spawnTime, id, aux);
-					while (sc.hasNextLine() && line != "endwave") {
-						line = sc.nextLine();
+					line = sc.nextLine();
+					while (sc.hasNextLine() && !line.equals("endwave")) {
 						String[] args = line.split(" ");
 						String classe = args[0];
 						String[] coord = args[1].substring(1, args[1].length() - 1).split(",");
 						float x = Float.parseFloat(coord[0]);
 						float y = Float.parseFloat(coord[1]);
 						w.addEnemyPassive(Enemy.create((int) x, (int) y, ID.Enemy, classe));
+						line = sc.nextLine();
 					}
 					w.setup();
 					aux.addWave(w);
+					line = sc.nextLine();
 				}
 
 				// Descomentar c�digo para testar waves
-
-				Wave w1 = new Wave(1000, 1, aux);
-				w1.addEnemyPassive(new Thinny((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
-				w1.addEnemyPassive(new Cool((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Cool"), Enemy.generateVel("Cool")));
-				w1.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
-				w1.addEnemyPassive(new Cool((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Cool"), Enemy.generateVel("Cool")));
-				w1.addEnemyPassive(new Thinny((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
-				w1.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
-				w1.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
-				w1.setup();
-				aux.addWave(w1);
-
-				Wave w2 = new Wave(1000, 2, aux);
-				w2.addEnemyPassive(new Thinny((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
-				w2.addEnemyPassive(new Cool((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Cool"), Enemy.generateVel("Cool")));
-				w2.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
-				w2.addEnemyPassive(new Cool((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Cool"), Enemy.generateVel("Cool")));
-				w2.addEnemyPassive(new Thinny((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
-				w2.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
-				w2.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int) aux.getStartPoint().y,
-						Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso")));
-				w2.setup();
-				aux.addWave(w2);
-
+				/*
+				 * Wave w1 = new Wave(1000, 1, aux); w1.addEnemyPassive(new Thinny((int)
+				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
+				 * Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
+				 * w1.addEnemyPassive(new Cool((int) aux.getStartPoint().x, (int)
+				 * aux.getStartPoint().y, Enemy.generateHP("Cool"), Enemy.generateVel("Cool")));
+				 * w1.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int)
+				 * aux.getStartPoint().y, Enemy.generateHP("Fatso"),
+				 * Enemy.generateVel("Fatso"))); w1.addEnemyPassive(new Cool((int)
+				 * aux.getStartPoint().x, (int) aux.getStartPoint().y, Enemy.generateHP("Cool"),
+				 * Enemy.generateVel("Cool"))); w1.addEnemyPassive(new Thinny((int)
+				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
+				 * Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
+				 * w1.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int)
+				 * aux.getStartPoint().y, Enemy.generateHP("Fatso"),
+				 * Enemy.generateVel("Fatso"))); w1.addEnemyPassive(new Fatso((int)
+				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
+				 * Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso"))); w1.setup();
+				 * aux.addWave(w1);
+				 * 
+				 * Wave w2 = new Wave(1000, 2, aux); w2.addEnemyPassive(new Thinny((int)
+				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
+				 * Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
+				 * w2.addEnemyPassive(new Cool((int) aux.getStartPoint().x, (int)
+				 * aux.getStartPoint().y, Enemy.generateHP("Cool"), Enemy.generateVel("Cool")));
+				 * w2.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int)
+				 * aux.getStartPoint().y, Enemy.generateHP("Fatso"),
+				 * Enemy.generateVel("Fatso"))); w2.addEnemyPassive(new Cool((int)
+				 * aux.getStartPoint().x, (int) aux.getStartPoint().y, Enemy.generateHP("Cool"),
+				 * Enemy.generateVel("Cool"))); w2.addEnemyPassive(new Thinny((int)
+				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
+				 * Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
+				 * w2.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int)
+				 * aux.getStartPoint().y, Enemy.generateHP("Fatso"),
+				 * Enemy.generateVel("Fatso"))); w2.addEnemyPassive(new Fatso((int)
+				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
+				 * Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso"))); w2.setup();
+				 * aux.addWave(w2);
+				 */
 				currentMap = aux;
 
 				currentMap.drawPath();
 				addMapToGame();
+				loading = false;
 			}
 			// else se estiver vazio
 		} catch (FileNotFoundException e) {
@@ -327,13 +362,13 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void nextWave() {
-		//Primeira wave
+		// Primeira wave
 		if (currentWave == null) {
 			currentWave = currentMap.getNextWave(currentWave);
 			return;
 		}
-		Wave aux = currentMap.getNextWave(currentWave); 
-		//proximas waves com timer entre waves de aprox 15s
+		Wave aux = currentMap.getNextWave(currentWave);
+		// proximas waves com timer entre waves de aprox 15s
 		if (currentWave != null && currentWave.isFinished()) {
 			if (!startTimer) {
 				startTimer = true;
@@ -342,7 +377,7 @@ public class Game extends Canvas implements Runnable {
 				if (timer < 15000) {
 					timer += Clock.Delta();
 				} else {
-					if(aux != null)
+					if (aux != null)
 						currentWave = currentMap.getNextWave(currentWave);
 					timer = 0;
 					startTimer = false;
@@ -350,13 +385,13 @@ public class Game extends Canvas implements Runnable {
 				}
 			}
 		}
-		//Mapa terminado
-		if	(aux == null ) {
+		// Mapa terminado
+		if (aux == null) {
 			endMap();
 		}
-		
+
 	}
-	
+
 	public void endMap() {
 		mapFinished = true;
 		System.out.println("Acabou mapa");

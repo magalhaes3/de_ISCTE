@@ -11,7 +11,7 @@ import java.util.Random;
 import enemies.Enemy;
 
 public class Map {
-	public static final String[] level1maps = {"./maps/level1/Avante.txt","./maps/level1/Cidade.txt", "./maps/level1/map1.txt"};
+	public static final String[] level1maps = {"./maps/level1/Avante.txt","./maps/level1/Cidade.txt", "./maps/level1/Desvio.txt"};
 	public static final String[] level2maps = {"./maps/level2/Autonomo.txt", "./maps/level2/ICS.txt", "./maps/level2/Inside.txt"};
 	public static final String[] level3maps = {"./maps/level3/Estacionamento.txt", "./maps/level3/IGOT.txt"};
 	
@@ -127,7 +127,7 @@ public class Map {
 				writer.println(w.getSpawnTime()); 
 				writer.println(w.getWaveID());
 				for(Enemy e : w.getEnemyInfo())
-					writer.println(e.getClass().getSimpleName() + " (" + e.x + ", " + e.y + ") ");
+					writer.println(e.getClass().getSimpleName() + " (" + e.x + "," + e.y + ") ");
 				writer.println("endwave");
 			}
 			writer.println("endwaves");

@@ -59,14 +59,13 @@ public class Game extends Canvas implements Runnable {
 	private Game() {
 		igi = new InGameInterface();
 		iu = new InterfaceUpdater(igi);
-//		new Window(WIDTH, HEIGHT, title, this, igi);
-//		start();
-		
-//		init();
 	}
 
 	public void setFrame(JFrame frame) {
 		gameWindow = new Window(WIDTH, HEIGHT, title, this, igi, frame);
+	}
+	
+	public void startGame() {
 		start();
 		init();
 	}
@@ -121,8 +120,18 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void restart() {
-		start();
-		init();
+		this.player = new Player(this.player.getMaxHP());
+		gameObjects.clear();
+		objectsToAdd.clear();
+		objectsToRemove.clear();
+		currentMap = null;
+		currentWave = null;
+		currentLevel = 1;
+		loading = true;
+		gameover = false;
+		mapFinished = false;
+		
+		startGame();
 	}
 
 	@Override

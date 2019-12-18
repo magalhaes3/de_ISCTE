@@ -119,6 +119,7 @@ public class Menu {
 			public void actionPerformed(ActionEvent e) {
 				Game g = Game.getInstance();
 				g.setFrame(frame);
+				g.startGame();
 			}
 		});
 		startPanel.add(startButton);
@@ -140,8 +141,8 @@ public class Menu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Game g = Game.getInstance();
-				g.restart();
 				g.setFrame(frame);
+				g.restart();
 			}
 		});
 		startPanel.add(startButton);

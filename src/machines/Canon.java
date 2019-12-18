@@ -8,9 +8,9 @@ import de_ISCTE.ID;
 
 public class Canon extends Machine {
 	
-	private static final int RANGE = 6;
-	private static final int DAMAGE = 7;
-	private static final int FIRERATE = 40;
+	public static final int RANGE = 6;
+	public static final int DAMAGE = 7;
+	public static final int FIRERATE = 40;
 	
 	public static final int PRICE = 50;
 	

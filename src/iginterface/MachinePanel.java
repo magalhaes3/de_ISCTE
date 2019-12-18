@@ -18,7 +18,7 @@ public class MachinePanel extends JPanel{
 	private MachineLabel machLabel;
 	private Color c;
 	
-	public MachinePanel(String machine) {
+	public MachinePanel(String machine, String tooltip) {
 		this.machLabel = new MachineLabel(Machine.getPrice(machine));
 		
 		c = Color.BLACK;
@@ -56,6 +56,7 @@ public class MachinePanel extends JPanel{
 		gbc.insets = new Insets(0,0,0,0);
 		gbc.gridy = 1;
 		add(machLabel, gbc);
+		this.setToolTipText(tooltip);
 	}
 	
 	public MachineLabel getMachLabel() {

@@ -8,9 +8,9 @@ import de_ISCTE.ID;
 
 public class FastTurret extends Machine {
 	
-	private static final int RANGE = 4;
-	private static final int DAMAGE = 4;
-	private static final int FIRERATE = 13;
+	public static final int RANGE = 4;
+	public static final int DAMAGE = 4;
+	public static final int FIRERATE = 13;
 	
 	public static final int PRICE = 100;
 	

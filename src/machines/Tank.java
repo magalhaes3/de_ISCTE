@@ -8,9 +8,9 @@ import de_ISCTE.ID;
 
 public class Tank extends Machine {
 	
-	private static final int RANGE = 10;
-	private static final int DAMAGE = 10;
-	private static final int FIRERATE = 43;
+	public static final int RANGE = 10;
+	public static final int DAMAGE = 10;
+	public static final int FIRERATE = 43;
 	
 	public static final int PRICE = 500;
 	

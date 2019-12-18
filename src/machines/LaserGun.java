@@ -8,9 +8,9 @@ import de_ISCTE.ID;
 
 public class LaserGun extends Machine {
 	
-	private static final int RANGE = 7;
-	private static final int DAMAGE = 8;
-	private static final int FIRERATE = 5;
+	public static final int RANGE = 7;
+	public static final int DAMAGE = 8;
+	public static final int FIRERATE = 5;
 	
 	public static final int PRICE = 1000;
 	

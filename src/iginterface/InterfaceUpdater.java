@@ -21,6 +21,7 @@ public class InterfaceUpdater {
 		
 		igi.setMapDisplayedText(m.getTitle());
 		igi.setWaveDisplayedText(w.getWaveID(), m.getNumberOfWaves());
+		igi.setClimateDisplayedText(w.getMap().getClimate().toString());
 		igi.setEnemiesDisplayedText(w.getAliveEnemies(), w.getTotalEnemies());
 		igi.setPointsDisplayedText(p.getPoints());
 		igi.setHpDisplayedText(p.getHP(), p.getMaxHP());

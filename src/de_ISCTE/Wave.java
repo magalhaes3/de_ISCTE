@@ -31,7 +31,7 @@ public class Wave {
 	
 	public void setup() {
 		totalEnemies = enemyInfo.size();
-		waveReward = totalEnemies * 50;
+		waveReward = totalEnemies * 25;
 		enemiesUntilReward = generateEnemiesUntilReward();
 		System.out.println(enemiesUntilReward);
 		aliveEnemies = totalEnemies;

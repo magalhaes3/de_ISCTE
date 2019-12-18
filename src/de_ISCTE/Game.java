@@ -14,8 +14,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
-
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import enemies.Enemy;
 import iginterface.InGameInterface;
@@ -55,7 +57,8 @@ public class Game extends Canvas implements Runnable {
 
 	InGameInterface igi;
 	Window gameWindow;
-//	Privado porque so e usado internamente para debugging
+
+	// Privado porque so e usado internamente para debugging
 	private Game() {
 		igi = new InGameInterface();
 		iu = new InterfaceUpdater(igi);
@@ -64,16 +67,16 @@ public class Game extends Canvas implements Runnable {
 	public void setFrame(JFrame frame) {
 		gameWindow = new Window(WIDTH, HEIGHT, title, this, igi, frame);
 	}
-	
+
 	public void startGame() {
 		start();
 		init();
 	}
-	
+
 	private synchronized void start() {
 		if (isRunning)
 			return;
-		
+
 		gameover = false;
 		mapFinished = false;
 		this.currentLevel = 1;
@@ -84,7 +87,7 @@ public class Game extends Canvas implements Runnable {
 
 	private void init() {
 		loadMap(chooseMap());
-//		loadMap("maps/level1/Avante.txt");
+//		loadMap("maps/level3/Parque.txt");
 		nextWave();
 	}
 
@@ -118,7 +121,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		isRunning = false;
 	}
-	
+
 	public void restart() {
 		this.player = new Player(this.player.getMaxHP());
 		gameObjects.clear();
@@ -130,7 +133,7 @@ public class Game extends Canvas implements Runnable {
 		loading = true;
 		gameover = false;
 		mapFinished = false;
-		
+
 		startGame();
 	}
 
@@ -161,29 +164,27 @@ public class Game extends Canvas implements Runnable {
 
 				if (System.currentTimeMillis() - timer > 1000) {
 					timer += 1000;
-					// sSystem.out.println("FPS: " + frames + " TICKS: " + updates);
-					// System.out.println(player.getTile());
+					// System.out.println("FPS: " + frames + " TICKS: " + updates);
 					frames = 0;
 					updates = 0;
 				}
-			}
-			else {
+			} else {
 				renderLoading();
-//				System.out.println("");
 			}
 		}
-		
+
 	}
-	
+
 	private void renderLoading() {
 		BufferStrategy bs = this.getBufferStrategy();
+
 		if (bs == null) {
 			this.createBufferStrategy(3);
 			return;
 		}
 
 		Graphics g = bs.getDrawGraphics();
-		
+
 		BufferedImage img = null;
 		try {
 			img = ImageIO.read(new File("textures/loading.png"));
@@ -193,12 +194,13 @@ public class Game extends Canvas implements Runnable {
 		g.drawImage(img, 0, 0, WIDTH, HEIGHT, null);
 		bs.show();
 		g.dispose();
+
 	}
 
 	public void tick() {
 		// update game
 		if (!gameover) {
-			
+
 			if (!mapFinished) {
 				if (currentWave != null) {
 					currentWave.tick();
@@ -210,31 +212,35 @@ public class Game extends Canvas implements Runnable {
 			for (GameObject tempObject : gameObjects) {
 				tempObject.tick();
 			}
-			if(currentWave != null && currentMap != null)
+			if (currentWave != null && currentMap != null)
 				iu.tick();
-			if (player.getHP() == 0) 
-				endMap();
+			if (player.getHP() == 0)
+				endMap(false);
 		}
 	}
 
 	private void render() {
 		// render game
 		BufferStrategy bs = this.getBufferStrategy();
+
 		if (bs == null) {
 			this.createBufferStrategy(3);
 			return;
 		}
 
-		Graphics g = bs.getDrawGraphics();
-		////////////////////////////////////
+		if (SwingUtilities.getRoot(this) != null && SwingUtilities.getRoot(this).isVisible()) {
 
-		renderGameObjects(g);
-		if (player.getInsertMode())
-			player.render(g);
-		////////////////////////////////////
-		bs.show();
-		g.dispose();
+			Graphics g = bs.getDrawGraphics();
+			////////////////////////////////////
 
+			renderGameObjects(g);
+			if (player.getInsertMode())
+				player.render(g);
+			////////////////////////////////////
+			bs.show();
+			g.dispose();
+
+		}
 	}
 
 	private void renderGameObjects(Graphics g) {
@@ -323,8 +329,6 @@ public class Game extends Canvas implements Runnable {
 		}
 
 	}
-	
-	
 
 	// adicionar grid � lista GameObjects para ser updated
 	private void addMapToGame() {
@@ -337,6 +341,7 @@ public class Game extends Canvas implements Runnable {
 		// Primeira wave
 		if (currentWave == null) {
 			currentWave = currentMap.getNextWave(currentWave);
+			currentMap.setClimate();
 			return;
 		}
 		Wave aux = currentMap.getNextWave(currentWave);
@@ -349,8 +354,10 @@ public class Game extends Canvas implements Runnable {
 				if (timer < 15000) {
 					timer += Clock.Delta();
 				} else {
-					if (aux != null)
+					if (aux != null) {
 						currentWave = currentMap.getNextWave(currentWave);
+						currentMap.setClimate();
+					}
 					timer = 0;
 					startTimer = false;
 					return;
@@ -359,21 +366,36 @@ public class Game extends Canvas implements Runnable {
 		}
 		// Mapa terminado
 		if (aux == null) {
-			endMap();
+			endMap(true);
 		}
 
 	}
 
-	public void endMap() {
+	public void endMap(boolean win) {
 		mapFinished = true;
 		System.out.println("Acabou mapa");
 		this.isRunning = false;
 		gameover = true;
 		currentWave = null;
 		currentMap = null;
+		displayResult(win);
 		JFrame aux = gameWindow.getFrame();
 		new Menu(aux);
 		stop();
+	}
+	
+	private void displayResult(boolean win) {
+		String s = "";
+		ImageIcon img = null;
+		if(win)  {
+			s = "You Won!";
+			img = new ImageIcon("textures/win.png");
+		}
+		else {
+			s = "You Lost!"; 
+			img = new ImageIcon("textures/lost.png");
+		}		
+		JOptionPane.showMessageDialog(null, s, "Result", JOptionPane.INFORMATION_MESSAGE, img);
 	}
 
 	public static Game getInstance() {

@@ -74,7 +74,9 @@ public class Game extends Canvas implements Runnable {
 	private synchronized void start() {
 		if (isRunning)
 			return;
-
+		
+		gameover = false;
+		mapFinished = false;
 		this.currentLevel = 1;
 		thread = new Thread(this);
 		thread.start();
@@ -117,6 +119,11 @@ public class Game extends Canvas implements Runnable {
 		}
 		isRunning = false;
 	}
+	
+	public void restart() {
+		start();
+		init();
+	}
 
 	@Override
 	// gameloop
@@ -156,7 +163,7 @@ public class Game extends Canvas implements Runnable {
 //				System.out.println("");
 			}
 		}
-		stop();
+		
 	}
 	
 	private void renderLoading() {
@@ -194,9 +201,10 @@ public class Game extends Canvas implements Runnable {
 			for (GameObject tempObject : gameObjects) {
 				tempObject.tick();
 			}
-			iu.tick();
-			if (player.getHP() == 0)
-				gameover = true;
+			if(currentWave != null && currentMap != null)
+				iu.tick();
+			if (player.getHP() == 0) 
+				endMap();
 		}
 	}
 
@@ -210,13 +218,6 @@ public class Game extends Canvas implements Runnable {
 
 		Graphics g = bs.getDrawGraphics();
 		////////////////////////////////////
-
-		// if(currentMap != null) {
-		// currentMap.render(g);
-		// if(currentWave != null)
-		// currentWave.render(g);
-		// }
-		// ---------------------
 
 		renderGameObjects(g);
 		if (player.getInsertMode())
@@ -301,47 +302,6 @@ public class Game extends Canvas implements Runnable {
 					aux.addWave(w);
 					line = sc.nextLine();
 				}
-
-				// Descomentar c�digo para testar waves
-				/*
-				 * Wave w1 = new Wave(1000, 1, aux); w1.addEnemyPassive(new Thinny((int)
-				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
-				 * Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
-				 * w1.addEnemyPassive(new Cool((int) aux.getStartPoint().x, (int)
-				 * aux.getStartPoint().y, Enemy.generateHP("Cool"), Enemy.generateVel("Cool")));
-				 * w1.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int)
-				 * aux.getStartPoint().y, Enemy.generateHP("Fatso"),
-				 * Enemy.generateVel("Fatso"))); w1.addEnemyPassive(new Cool((int)
-				 * aux.getStartPoint().x, (int) aux.getStartPoint().y, Enemy.generateHP("Cool"),
-				 * Enemy.generateVel("Cool"))); w1.addEnemyPassive(new Thinny((int)
-				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
-				 * Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
-				 * w1.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int)
-				 * aux.getStartPoint().y, Enemy.generateHP("Fatso"),
-				 * Enemy.generateVel("Fatso"))); w1.addEnemyPassive(new Fatso((int)
-				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
-				 * Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso"))); w1.setup();
-				 * aux.addWave(w1);
-				 * 
-				 * Wave w2 = new Wave(1000, 2, aux); w2.addEnemyPassive(new Thinny((int)
-				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
-				 * Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
-				 * w2.addEnemyPassive(new Cool((int) aux.getStartPoint().x, (int)
-				 * aux.getStartPoint().y, Enemy.generateHP("Cool"), Enemy.generateVel("Cool")));
-				 * w2.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int)
-				 * aux.getStartPoint().y, Enemy.generateHP("Fatso"),
-				 * Enemy.generateVel("Fatso"))); w2.addEnemyPassive(new Cool((int)
-				 * aux.getStartPoint().x, (int) aux.getStartPoint().y, Enemy.generateHP("Cool"),
-				 * Enemy.generateVel("Cool"))); w2.addEnemyPassive(new Thinny((int)
-				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
-				 * Enemy.generateHP("Thinny"), Enemy.generateVel("Thinny")));
-				 * w2.addEnemyPassive(new Fatso((int) aux.getStartPoint().x, (int)
-				 * aux.getStartPoint().y, Enemy.generateHP("Fatso"),
-				 * Enemy.generateVel("Fatso"))); w2.addEnemyPassive(new Fatso((int)
-				 * aux.getStartPoint().x, (int) aux.getStartPoint().y,
-				 * Enemy.generateHP("Fatso"), Enemy.generateVel("Fatso"))); w2.setup();
-				 * aux.addWave(w2);
-				 */
 				currentMap = aux;
 
 				currentMap.drawPath();
@@ -354,6 +314,8 @@ public class Game extends Canvas implements Runnable {
 		}
 
 	}
+	
+	
 
 	// adicionar grid � lista GameObjects para ser updated
 	private void addMapToGame() {
@@ -397,8 +359,12 @@ public class Game extends Canvas implements Runnable {
 		mapFinished = true;
 		System.out.println("Acabou mapa");
 		this.isRunning = false;
+		gameover = true;
+		currentWave = null;
+		currentMap = null;
 		JFrame aux = gameWindow.getFrame();
 		new Menu(aux);
+		stop();
 	}
 
 	public static Game getInstance() {

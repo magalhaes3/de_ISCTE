@@ -67,7 +67,7 @@ public class Menu {
 		
 		frame.revalidate();
 
-		createStartPanel(frame);
+		createStartPanel2(frame);
 
 		frame.revalidate();
 		
@@ -126,6 +126,28 @@ public class Menu {
 		frame.add(startPanel, BorderLayout.CENTER);
 	}
 
+	private static void createStartPanel2(JFrame frame) {
+		JPanel startPanel = new JPanel();
+		startPanel.setBackground(new Color(37, 35, 41));
+		
+		JButton startButton = new JButton("Start");
+		startButton.setPreferredSize(new Dimension(300, 100));
+		startButton.setForeground(Color.WHITE);
+		startButton.setBackground(new Color(57, 55, 61));
+		startButton.setBorder(null);
+		startButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Game g = Game.getInstance();
+				g.restart();
+				g.setFrame(frame);
+			}
+		});
+		startPanel.add(startButton);
+		
+		frame.add(startPanel, BorderLayout.CENTER);
+	}
 	private static void createExitButton(JFrame frame) {
 		JButton exitButton = new JButton("Exit");
 		exitButton.setPreferredSize(new Dimension(300, 100));

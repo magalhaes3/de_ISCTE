@@ -86,8 +86,8 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void init() {
-		loadMap(chooseMap());
-//		loadMap("maps/level3/Parque.txt");
+//		loadMap(chooseMap());
+		loadMap("maps/level2/Inside.txt");
 		nextWave();
 	}
 

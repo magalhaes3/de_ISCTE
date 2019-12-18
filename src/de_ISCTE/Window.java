@@ -9,11 +9,13 @@ import javax.swing.JFrame;
 import iginterface.InGameInterface;
 
 public class Window {
+	
+	private JFrame frame;
 
 	public Window(int width, int height, String title, Game game, InGameInterface igi) {
 
 		width = width + (int) igi.getPreferredSize().getWidth();
-		JFrame frame = new JFrame(title);
+		this.frame = new JFrame(title);
 		frame.setPreferredSize(new Dimension(width, height));
 		frame.setMaximumSize(new Dimension(width, height));
 		frame.setMinimumSize(new Dimension(width, height));
@@ -28,7 +30,8 @@ public class Window {
 		frame.setVisible(true);
 	}
 
-	public Window(JFrame frame, Game game) {
+	public Window(JFrame frameFromMenu, Game game) {
+		this.frame = frameFromMenu;
 		frame.getContentPane().removeAll();
 		frame.repaint();
 
@@ -39,7 +42,8 @@ public class Window {
 		frame.setVisible(true);
 	}
 
-	public Window(int width, int height, String title, Game game, InGameInterface igi, JFrame frame) {
+	public Window(int width, int height, String title, Game game, InGameInterface igi, JFrame gameFrame) {
+		this.frame = gameFrame;
 		frame.setVisible(false);
 		
 		width = width + (int) igi.getPreferredSize().getWidth();
@@ -64,4 +68,9 @@ public class Window {
 		
 		frame.setVisible(true);
 	}
+	
+	public JFrame getFrame() {
+		return this.frame;
+	}
+	
 }

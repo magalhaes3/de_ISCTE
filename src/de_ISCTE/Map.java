@@ -13,7 +13,7 @@ import enemies.Enemy;
 public class Map {
 	public static final String[] level1maps = {"./maps/level1/Avante.txt","./maps/level1/Cidade.txt", "./maps/level1/Desvio.txt"};
 	public static final String[] level2maps = {"./maps/level2/Autonomo.txt", "./maps/level2/ICS.txt", "./maps/level2/Inside.txt"};
-	public static final String[] level3maps = {"./maps/level3/Estacionamento.txt", "./maps/level3/IGOT.txt"};
+	public static final String[] level3maps = {"./maps/level3/Parque.txt", "./maps/level3/IGOT.txt"};
 	
 	protected static int H_SLOTS = 14;
 	protected static int V_SLOTS = 20;
@@ -64,7 +64,7 @@ public class Map {
 
 	}
 	
-	private void setClimate() {
+	public void setClimate() {
 		Random r = new Random();
 		climate = Climate.getClimate(r.nextDouble());
 	}
@@ -155,7 +155,7 @@ public class Map {
 	
 	public Wave getNextWave(Wave current) {
 		if(current == null) {
-			setClimate();
+//			setClimate();
 			return waves.get(0);
 		}
 		else {
@@ -163,7 +163,7 @@ public class Map {
 			if(index == waves.size() - 1)
 				return null; //terminar mapa
 			else {
-				setClimate();
+//				setClimate();
 				return waves.get(waves.indexOf(current) + 1);
 			}
 		}

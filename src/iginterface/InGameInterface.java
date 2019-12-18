@@ -29,6 +29,7 @@ public class InGameInterface extends JPanel {
 
 	private JLabel mapDisplayed;
 	private JLabel waveDisplayed;
+	private JLabel climateDisplayed;
 	private JLabel enemiesDisplayed;
 	private JLabel pointsDisplayed;
 	private JLabel hpDisplayed;
@@ -59,16 +60,14 @@ public class InGameInterface extends JPanel {
 		//criar Jlabels e por fonts
 		mapDisplayed = new JLabel("");
 		waveDisplayed = new JLabel("");
+		climateDisplayed = new JLabel("");
 		enemiesDisplayed = new JLabel("");
 		pointsDisplayed = new JLabel("");
 		hpDisplayed = new JLabel("");
-//		mapDisplayed = new JLabel("MAP");
-//		waveDisplayed = new JLabel("Wave 1/4");
-//		enemiesDisplayed = new JLabel("Enemies 50/60");
-//		pointsDisplayed = new JLabel("Points: 221320");
-//		hpDisplayed = new JLabel("HP 30/30");
+
 		
-		mapDisplayed.setFont(InfoHelper.getInterfaceFont().deriveFont(40f));
+		mapDisplayed.setFont(InfoHelper.getInterfaceFont().deriveFont(30f));
+		climateDisplayed.setFont(InfoHelper.getInterfaceFont().deriveFont(20f));
 		waveDisplayed.setFont(InfoHelper.getInterfaceFont().deriveFont(20f));
 		enemiesDisplayed.setFont(InfoHelper.getInterfaceFont().deriveFont(20f));
 		pointsDisplayed.setFont(InfoHelper.getInterfaceFont().deriveFont(20f));
@@ -89,19 +88,26 @@ public class InGameInterface extends JPanel {
 		gbc.gridy = 1;
 		add(waveDisplayed, gbc);
 		
+		gbc.weighty = 10;
+		climateDisplayed.setForeground(Color.WHITE);
+		gbc.fill = GridBagConstraints.CENTER;
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		add(climateDisplayed, gbc);
+		
 		// wave label
 		gbc.weighty = 10;
 		enemiesDisplayed.setForeground(Color.WHITE);
 		gbc.fill = GridBagConstraints.CENTER;
 		gbc.gridx = 0;
-		gbc.gridy = 2;
+		gbc.gridy = 3;
 		add(enemiesDisplayed, gbc);
 
 		
 		//container com maquinas
 		gbc.weighty = 20;
 		gbc.gridx = 0;
-		gbc.gridy = 3;
+		gbc.gridy = 4;
 		add(new MachineContainer(), gbc);
 		
 		
@@ -113,7 +119,7 @@ public class InGameInterface extends JPanel {
 		pointsDisplayed.setHorizontalTextPosition(JLabel.LEFT);
 
 		gbc.gridx = 0;
-		gbc.gridy = 4;
+		gbc.gridy = 5;
 		add(pointsDisplayed, gbc);	
 		
 		
@@ -125,7 +131,7 @@ public class InGameInterface extends JPanel {
 		hpDisplayed.setHorizontalTextPosition(JLabel.LEFT);
 		
 		gbc.gridx = 0;
-		gbc.gridy = 5;
+		gbc.gridy = 6;
 		add(hpDisplayed, gbc);		
 	}
 
@@ -150,6 +156,10 @@ public class InGameInterface extends JPanel {
 
 	public void setWaveDisplayedText(int wave, int nWaves) {
 		waveDisplayed.setText("Wave " + wave + "/" + nWaves);
+	}
+	
+	public void setClimateDisplayedText(String climate) {
+		climateDisplayed.setText(climate);
 	}
 
 	public JLabel getEnemiesDisplayed() {

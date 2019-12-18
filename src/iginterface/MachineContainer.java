@@ -23,7 +23,7 @@ public class MachineContainer extends JPanel{
 		
 		
 		
-		String tooltip = "<html>Damage: " + Canon.DAMAGE + "<br>Range: " + Canon.RANGE + "<br>Fire Rate: " + Canon.FIRERATE + "</html>";
+		String tooltip = "<html>Damage: " + Canon.DAMAGE + "<br>Range: " + Canon.RANGE + "<br>Fire Rate: " + String.valueOf(10.0/(float)Canon.FIRERATE).substring(0,4) + "</html>";
 		
 		MachinePanel mp = new MachinePanel("Canon", tooltip);
 		gbc.gridx = 0;
@@ -31,7 +31,7 @@ public class MachineContainer extends JPanel{
 		gbc.insets = new Insets(0,0,20,24);
 		add(mp, gbc);
 		
-		tooltip = "<html>Damage: " + FastTurret.DAMAGE + "<br>Range: " + FastTurret.RANGE + "<br>Fire Rate: " + FastTurret.FIRERATE + "</html>";
+		tooltip = "<html>Damage: " + FastTurret.DAMAGE + "<br>Range: " + FastTurret.RANGE + "<br>Fire Rate: " + String.valueOf(10.0/(float)FastTurret.FIRERATE).substring(0,4) + "</html>";
 		
 		MachinePanel mp1 = new MachinePanel("FastTurret", tooltip);
 		gbc.gridx = 1;
@@ -39,7 +39,7 @@ public class MachineContainer extends JPanel{
 		gbc.insets = new Insets(0,0,20,24);
 		add(mp1, gbc);
 		
-		tooltip = "<html>Damage: " + Tank.DAMAGE + "<br>Range: " + Tank.RANGE + "<br>Fire Rate: " + Tank.FIRERATE + "</html>";
+		tooltip = "<html>Damage: " + Tank.DAMAGE + "<br>Range: " + Tank.RANGE + "<br>Fire Rate: " + String.valueOf(10.0/(float)Tank.FIRERATE).substring(0,4) + "</html>";
 		
 		MachinePanel mp2 = new MachinePanel("Tank", tooltip);
 		gbc.gridx = 2;
@@ -47,7 +47,7 @@ public class MachineContainer extends JPanel{
 		gbc.insets = new Insets(0,0,20,0);
 		add(mp2, gbc);
 		
-		tooltip = "<html>Damage: " + LaserGun.DAMAGE + "<br>Range: " + LaserGun.RANGE + "<br>Fire Rate: " + LaserGun.FIRERATE + "</html>";
+		tooltip = "<html>Damage: " + LaserGun.DAMAGE + "<br>Range: " + LaserGun.RANGE + "<br>Fire Rate: " + String.valueOf(10.0/(float)LaserGun.FIRERATE).substring(0,2) + "</html>";
 		
 		MachinePanel mp3 = new MachinePanel("LaserGun", tooltip);
 		gbc.gridx = 0;

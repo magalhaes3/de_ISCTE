@@ -41,10 +41,11 @@ public class Menu {
 		addLogo(frame);
 
 		createStartPanel(frame);
-
+		
 		createExitButton(frame);
 
 		open(frame);
+		
 	}
 	
 	public Menu(JFrame frameFromGame) {
@@ -75,6 +76,7 @@ public class Menu {
 
 		frame.revalidate();
 		
+	
 		open(frame);
 		
 		frame.revalidate();
@@ -118,6 +120,7 @@ public class Menu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Game g = Game.getInstance();
+				frame.setTitle("de_ISCTE - Level 1");
 				g.setFrame(frame);
 				g.startGame();
 			}
@@ -143,6 +146,7 @@ public class Menu {
 				Game g = Game.getInstance();
 				g.setFrame(frame);
 				g.restart();
+				frame.setTitle("de_ISCTE - Level " + g.getCurrentLevel());
 			}
 		});
 		startPanel.add(startButton);

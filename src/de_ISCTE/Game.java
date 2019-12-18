@@ -43,10 +43,11 @@ public class Game extends Canvas implements Runnable {
 	private Map currentMap;
 	private Wave currentWave;
 
-	private int currentLevel;
+	private int currentLevel = 1;
 
 	private float timer;
 
+	private boolean win;
 	private boolean startTimer;
 	private boolean loading = true;
 	private boolean gameover = false;
@@ -79,7 +80,6 @@ public class Game extends Canvas implements Runnable {
 
 		gameover = false;
 		mapFinished = false;
-		this.currentLevel = 1;
 		thread = new Thread(this);
 		thread.start();
 		isRunning = true;
@@ -87,7 +87,6 @@ public class Game extends Canvas implements Runnable {
 
 	private void init() {
 		loadMap(chooseMap());
-//		loadMap("maps/level2/Inside.txt");
 		nextWave();
 	}
 
@@ -129,7 +128,14 @@ public class Game extends Canvas implements Runnable {
 		objectsToRemove.clear();
 		currentMap = null;
 		currentWave = null;
-		currentLevel = 1;
+		if (win) {
+			if (currentLevel != 3)
+				currentLevel++;
+			else
+				currentLevel = 1;
+		}
+		else
+			currentLevel = 1;
 		loading = true;
 		gameover = false;
 		mapFinished = false;
@@ -207,8 +213,7 @@ public class Game extends Canvas implements Runnable {
 					if (currentWave.isFinished())
 						nextWave();
 
-				}
-				else
+				} else
 					nextWave();
 			}
 			for (GameObject tempObject : gameObjects) {
@@ -216,8 +221,10 @@ public class Game extends Canvas implements Runnable {
 			}
 			if (currentWave != null && currentMap != null)
 				iu.tick();
-			if (player.getHP() == 0)
-				endMap(false);
+			if (player.getHP() == 0) {
+				win = false;
+				endMap(win);
+			}
 		}
 	}
 
@@ -261,6 +268,10 @@ public class Game extends Canvas implements Runnable {
 
 	public Wave getCurrentWave() {
 		return currentWave;
+	}
+	
+	public int getCurrentLevel() {
+		return currentLevel;
 	}
 
 	public Player getPlayer() {
@@ -368,7 +379,8 @@ public class Game extends Canvas implements Runnable {
 		}
 		// Mapa terminado
 		if (aux == null) {
-			endMap(true);
+			win = true;
+			endMap(win);
 		}
 
 	}
@@ -385,18 +397,17 @@ public class Game extends Canvas implements Runnable {
 		new Menu(aux);
 		stop();
 	}
-	
+
 	private void displayResult(boolean win) {
 		String s = "";
 		ImageIcon img = null;
-		if(win)  {
+		if (win) {
 			s = "You Won!";
 			img = new ImageIcon("textures/win.png");
-		}
-		else {
-			s = "You Lost!"; 
+		} else {
+			s = "You Lost!";
 			img = new ImageIcon("textures/lost.png");
-		}		
+		}
 		JOptionPane.showMessageDialog(null, s, "Result", JOptionPane.INFORMATION_MESSAGE, img);
 	}
 

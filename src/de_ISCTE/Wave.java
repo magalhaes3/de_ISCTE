@@ -55,6 +55,9 @@ public class Wave {
 	}
 	
 	public void tick() {
+//		System.out.println("TSLS: " + timeSinceLastSpawn + "        SPAWN: " + spawnTime);
+		if(timeSinceLastSpawn < 0 )
+			timeSinceLastSpawn = 0;
 		timeSinceLastSpawn += Clock.Delta();
 		if(timeSinceLastSpawn > spawnTime) {
 			spawn();

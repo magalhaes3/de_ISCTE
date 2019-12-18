@@ -208,6 +208,8 @@ public class Game extends Canvas implements Runnable {
 						nextWave();
 
 				}
+				else
+					nextWave();
 			}
 			for (GameObject tempObject : gameObjects) {
 				tempObject.tick();

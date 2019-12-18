@@ -61,13 +61,20 @@ public class Menu {
 		frame.getContentPane().setBackground(new Color(37, 35, 41));
 		frame.setTitle("Menu");
 		
+		frame.revalidate();
 		
 		addLogo(frame);
+		
+		frame.revalidate();
 
 		createStartPanel(frame);
 
+		frame.revalidate();
+		
 		createExitButton(frame);
 
+		frame.revalidate();
+		
 		open(frame);
 		
 		frame.revalidate();

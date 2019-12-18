@@ -396,6 +396,7 @@ public class Game extends Canvas implements Runnable {
 	public void endMap() {
 		mapFinished = true;
 		System.out.println("Acabou mapa");
+		this.isRunning = false;
 		JFrame aux = gameWindow.getFrame();
 		new Menu(aux);
 	}
